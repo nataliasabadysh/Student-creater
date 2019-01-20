@@ -1,0 +1,57 @@
+
+.form{
+    background-color: #eee;
+    padding: 10px;
+}
+.wrapper{
+    height: 550px;
+    padding-bottom: 25px;
+
+}
+.formSubmit{
+    cursor: pointer;
+    /* display: inline-block;
+    
+    text-align: center;
+    padding: 10px;
+    border: none;
+    outline: none;
+    font-size: 16px; */
+    background-color:#ffe5ac69;  
+} 
+.disabledButton {
+    color: grey;
+}
+.loginPage .disabledButton:hover {
+    box-shadow: initial;
+}
+input{
+    width: 230px;
+    margin: 0 0 20px;
+    padding: 8px 10px;
+    border-radius: 7px;
+    outline: none;
+    font-size: 17px;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid #eee;
+    outline: none;
+}
+.input:focus {
+    outline: none;
+    border:2px solid #111;
+    box-shadow: 0 5px 6px -6px;
+}
+.invalidInput{
+    border: 1px solid red;
+}
+.invalidInput:focus {
+    border: 1px solid crimson;
+}
+.btn{
+    outline: none;
+}
+.btn:hover {
+    outline: none;
+    background-color: aliceblue;
+    box-shadow: 0 0 0 1px;
+}

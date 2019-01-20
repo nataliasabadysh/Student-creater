@@ -1,0 +1,47 @@
+.backDrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal {
+    background-color: #fff;
+    padding: 60px;
+    display: flex;
+  }
+  
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .list:not(:last-child) {
+    margin-bottom: 8px;
+  }
+  
+  .list li {
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  label,
+  input {
+    display: block;
+  }
+  
+  label {
+    padding-bottom: 8px;
+  }
+  
+  .sections{
+   display: flex;
+   /* widows: 100%; */
+   flex-basis:50%;
+  }
