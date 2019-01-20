@@ -1,38 +1,36 @@
 // Core
 import React, { Component } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import Select from 'react-select';
 
 // Instruments
-// import { actions } from '../../modules/Students';
+import { actions } from '../../modules/Students';
 import Styles from './slyles.module.css';
 
 // Avatar
 import avatar from './assets/download.png';
 
-const options = [
-    { value: 'Admin', label: 'Admin' },
-    { value: 'Registrar', label: 'Registrar' }
-];
+class Header extends Component {
+    options = [
+        { value: 'admin', label: 'Admin' },
+        { value: 'registrar', label: 'Registrar' }
+    ];
 
-export default class Header extends Component {
-  state = {
-      selectedOption: [],
-  }
   handleChange = (selectedOption) => {
-      this.setState({ selectedOption });
+      this.props.setRole(selectedOption.value)
   }
+
   render () {
-      const { selectedOption } = this.state;
+    const selectedOption = this.options.find((option) => option.value === this.props.role);
 
       return (
           <header className = { Styles.header }>
-              <img alt = 'user avatar' height = '48' src = { avatar } width = '48' />
+              <img alt = 'User avatar' height = '55' src = { avatar  } width = '55' />
               <div className = { Styles.Selector }>
                   <Select
+                      options = { this.options }
                       value = { selectedOption }
                       onChange = { this.handleChange }
-                      options = { options }
                   />
               </div>
           </header>
@@ -40,13 +38,13 @@ export default class Header extends Component {
   }
 }
 
-// const mapStateToProps = (state) => ({
-//     isRegistrar: state.role.isRegistrar,
-// });
+const mapStateToProps = (state) => ({
+    role: state.students.role,
+});
 
-// const mapDispatchToProps = {
-//     isRegistrar: actions.isRegistrar,  // ??? 
-// };
+const mapDispatchToProps = {
+    setRole: actions.setRole, 
+};
 
-// export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
 

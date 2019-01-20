@@ -5,11 +5,17 @@ import Moment from 'react-moment';
 // Instuments
 import './styles.module.css';
 
-const header = ['First Name', 'Last Name', 'Date Of Birth', 'Family Name', 'Approve'];
+const header = ['First Name', 'Last Name', 'Date Of Birth',  'Approve'];
 
-const StudentView = ({ lastName, firstName, dateOfBirth, approve, onToggleApprove }) => (
-    <div >
-        <table >
+const StudentView = ({ role, ID, lastName, firstName, dateOfBirth, nationality, loadStudentDataToModal, setModalOpenState, setModalMode }) => (
+        <table onClick = { (event) => {
+            if (event.target.type !== 'checkbox') {
+                loadStudentDataToModal({ ID, firstName, lastName, nationality })
+                setModalOpenState(true)
+                setModalMode('update');
+            }
+            
+        }}>
             <tbody >
                 <tr>
                     {header.map((item) => (
@@ -24,21 +30,19 @@ const StudentView = ({ lastName, firstName, dateOfBirth, approve, onToggleApprov
                             {dateOfBirth }
                         </Moment>
                     </td>
-                    <td>Name</td>
+                
                     <td>
                         <label >Approve
                             <input
-                                checked = { approve }
-                                onChange = { onToggleApprove }
+                                disabled = { role === 'admin' }
                                 type = 'checkbox'
                             />
                         </label>
                     </td>
                 </tr>
-
             </tbody>
         </table>
-    </div>
+
 );
 
 export default StudentView;

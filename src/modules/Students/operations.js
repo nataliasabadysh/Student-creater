@@ -5,7 +5,17 @@ import actions from './actions';
 const delay = (timeout = 1000) => new Promise((resolve) => setTimeout(resolve, timeout));
 
 // Fetch all Students
-const fetchStudents = () => async (dispatch) => {
+const fetchNationalitiesAsync = () => async (dispatch) => {
+    try {
+        const response = await axios.get('http://localhost:8088/api/Nationalities');
+
+        dispatch(actions.fillAllNationalities(response.data));
+    } catch (error) {
+        dispatch(actions.fetchError(error));
+    }
+};
+
+const fetchStudentsAsync = () => async (dispatch) => {
     try {
         dispatch(actions.setFetchingState(true));
 
@@ -19,12 +29,15 @@ const fetchStudents = () => async (dispatch) => {
 };
 
 // Add Student
-const addStudentAsync = (students) => async (dispatch) => {
+const addStudentAsync = (studentData) => async (dispatch) => {
     try {
         dispatch(actions.setFetchingState(true));
 
-        const response = await axios.post('http://localhost:8088/api/Students/', { ...students, approve: false });
-        
+        // Создаем студента
+        const response = await axios.post('http://localhost:8088/api/Students/', studentData);
+
+        // и устанавливаем ему национальность
+        await axios.put(`http://localhost:8088/api/Students/${response.data.ID}/Nationality/${studentData.nationalityId}`);
         await delay();
 
         dispatch(actions.addStudentSuccess(response.data));
@@ -35,18 +48,17 @@ const addStudentAsync = (students) => async (dispatch) => {
     }
 };
 
-// Get  Student’s Nationality
-const getStudentsNationalityAsync = (nationality) => async (dispatch) => {
-    try {
-        dispatch(actions.setFetchingState(true));
-        const response = await axios.get(`http://localhost:8088/api/Students/{id}/Nationality/{id}`, { nationality });
+// // Get  Student’s Nationality
+// const getStudentsNationalityAsync = (nationality) => async (dispatch) => {
+//     try {
+//         dispatch(actions.setFetchingState(true));
 
-        dispatch(actions.getNatoionality(response.data));
-        dispatch(actions.setFetchingState(false));
-    } catch (error) {
-        dispatch(actions.fetchError(error));
-    }
-};
+//         dispatch(actions.getNatoionality(response.data));
+//         dispatch(actions.setFetchingState(false));
+//     } catch (error) {
+//         dispatch(actions.fetchError(error));
+//     }
+// };
 
 // Update Student
 // const UpdateStudentAsync = students => async (dispatch)=> {
@@ -61,7 +73,7 @@ const getStudentsNationalityAsync = (nationality) => async (dispatch) => {
 //     dispatch(actions.fetchError(error))
 // }
 
-export default { fetchStudents, addStudentAsync, getStudentsNationalityAsync };
+export default { fetchStudentsAsync, addStudentAsync, fetchNationalitiesAsync };
 
 
 // // Updates  Student’s Nationality

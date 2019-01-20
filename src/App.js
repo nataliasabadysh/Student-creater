@@ -9,11 +9,11 @@ import StudentTable from './components/StudentTable';
 class App extends Component {
     render () {
         return (
-            <div>
+            <>
                 <Header />
                 <StudentTable />
                 <Modal />
-            </div>
+            </>
         );
     }
 }

@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-
 const app = express();
+
 app.use(bodyParser.json());
 
 
@@ -78,7 +78,6 @@ app.get('/api/Students/:studentID/Nationality/',
         const { nationality } = studentToUpdate;
         res.send({ nationality });
     });
-
 app.put('/api/Students/:studentID/Nationality/:nationalityID',
     ({ params: { studentID, nationalityID } }, res) => {
         const studentIndexToUpdate = students.findIndex(({ ID }) => ID === parseInt(studentID, 10));

@@ -1,9 +1,10 @@
 // Core
 import React, { Component, createRef } from 'react';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { object, string } from 'yup';
 import cx from 'classnames';
+import Select from 'react-select';
 
 // Component
 // import { oparations } from '../../modules/Students';
@@ -13,38 +14,62 @@ import Styles from '../StudentEditor/styles.module.css';
 
 // Validation  Form
 const schema = object().shape({
-    Name:         string().required(),
-    Relationship: string().required(),
-    Nationality:  string().required(),
+    firstName: string().required(),
+    lastName:  string().required(),
+    // dateOfBirth: string().required(),
+    // nationality: string().required(),
 });
 
 // const delay = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout));
-export default class StudentEditor extends Component {
+class FamilyMemberEditor extends Component {
+    options = [{
+        value: 'parent',
+        label: 'Parent',
+    }, {
+        value: 'sibling',
+        label: 'Sibling',
+    }, {
+        value: 'spouse',
+        label: 'Spouse',
+    }]
     formikForm = createRef();
-
+ 
   state = {
-      Name:         '',
-      Relationship: [],
-      Nationality:  [],
+      relationship: 'parent',
+      //   Nationality:  [],
   };
+
+  _selectRelationship = (selectedOption) => {
+
+      this.setState({
+          relationship: selectedOption.value,
+      });
+  }
 
   _submittingFamilyMember = (Data) => {
       //  this.props.addStudentAsync(Data);
   };
+
   _createPost = ({ Name, Relationship, Nationality }) => {
       this.props.actions.addStudentAsync({ Name, Relationship, Nationality });
   };
 
-//   deleteFamilyMember = ID => {
-//     const { actions, ID } = this.props;
-//     actions.deleteFamilyMemberAsync(ID);
-// };
+  //   deleteFamilyMember = ID => {
+  //     const { actions, ID } = this.props;
+  //     actions.deleteFamilyMemberAsync(ID);
+  // };
 
   render () {
-      const { isFetching } = this.props;
+      const { isFetching, role, modalMode } = this.props;
+
+      const selectedOption = this.options.find((relationship) => relationship.value === this.state.relationship);
 
       return (
           <Formik
+              initialValues = { {
+                  firstName: '',
+                  lastName:  '',
+              } }
               validationSchema = { schema }
               onSubmit = { this._submittingFamilyMember }
               render = { (props) => {
@@ -82,12 +107,11 @@ export default class StudentEditor extends Component {
                                       placeholder = 'Name'
                                       type = 'text'
                                   />
-                                  <Field
-                                      className = { invalidRelationshipStyle }
-                                      disabled = { isFetching }
-                                      name = 'Relationship'
-                                      placeholder = 'Relationship'
-                                      type = 'text'
+                                  <Select
+                                      isDisabled = { isFetching || modalMode !== 'create' && role === 'admin' }
+                                      options = { this.options }
+                                      value = { selectedOption }
+                                      onChange = { this._selectRelationship }
                                   />
                                   <Field
                                       className = { invalidNationalityStyle }
@@ -96,7 +120,7 @@ export default class StudentEditor extends Component {
                                       placeholder = 'Nationality'
                                       type = 'text'
                                   />
-                    
+
                                   <button className = { buttonStyle } disabled = { isFetching } type = 'submit'>
                                       { buttonMessage }
                                   </button>
@@ -110,15 +134,22 @@ export default class StudentEditor extends Component {
       );
   }
 }
-// const mapStateToProps = state =>({
-//   // isFetching: state.students.isFetching
-// });
+
+const mapStateToProps = (state) => ({
+    isFetching:         state.students.isFetching,
+    role:               state.students.role,
+    studentDataInModal: state.students.studentDataInModal,
+    nationalities:      state.students.nationalities,
+    modalMode:          state.students.modalMode,
+});
 
 // const mapDispatchToProps = {
-//   // addStudentAsync: studentOperations.addStudentAsync
+//     addStudentAsync:         operations.addStudentAsync,
+//     clearStudentDataToModal: actions.clearStudentDataToModal,
+//     setModalMode:            actions.setModalMode,
 // };
 
-// export default connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(StudentEditor);
+export default connect(
+    mapStateToProps,
+    // mapDispatchToProps
+)(FamilyMemberEditor);

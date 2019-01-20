@@ -13,8 +13,18 @@ import { actions } from '../../modules/Students';
 class Modal extends Component {
    backdropRef = createRef();
 
-   componentDidMount () {
+   state = {
+       familyMembersCount: 1, // можно увеличивать, уменьшать 
+   }
+
+   async componentDidMount () {
        window.addEventListener('keydown', this.handleKeyPress);
+
+       // ПОЛУЧАЕМ НАЦИОНАЛЬНОСТЬ СТУДЕНТА – ЭТО В редакс мы договорились не выносить, потому что больше нигде эта инфа использоватся не будет
+       // const r = await fetch( 'http://localhost:8088/api/Students/16984/Nationality/', { method: 'GET'});
+       // const rr = await r.json()
+
+      // console.log(rr);
    }
    componentWillUnmount () {
        window.removeEventListener('keydown', this.handleKeyPress);
@@ -34,7 +44,7 @@ class Modal extends Component {
                <div className = { Styles.modal }>
                    <section className = { Styles.sections }><StudentEditor /></section>
                    <section className = { Styles.sections }><FamilyrEditorView /></section>
-                   {/* <button type = 'button' onClick = { this.closeModal }> Close </button> */}
+                   <button type = 'button' onClick = { () => this.props.setModalOpenState(false) }> Close </button>
                </div>
            </div>
            );
@@ -43,7 +53,7 @@ class Modal extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    isModalOpen: state.students.isModalOpen,
+    isModalOpen:        state.students.isModalOpen,
 });
 
 const mapDispatchToProps = {

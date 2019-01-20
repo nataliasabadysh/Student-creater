@@ -12,6 +12,20 @@ const setModalOpenState = (state) => ({
     payload: state,
 });
 
+const setModalMode = (mode) => ({
+    type:    types.SET_MODAL_MODE,
+    payload: mode,
+});
+
+const loadStudentDataToModal = (studentData) => ({
+    type:    types.LOAD_STUDENT_DATA_TO_MODAL,
+    payload: studentData,
+});
+
+const clearStudentDataToModal = () => ({
+    type: types.CLEAR_STUDENT_DATA_TO_MODAL,
+});
+
 const fetchSuccess = (students) => ({
     type:    types.FETCH_STUDENT_SUCCESS,
     payload: students,
@@ -40,17 +54,12 @@ const modalAddStudentSuccess = (students) => ({
     payload: students,
 });
 
-
-// Registrar  Can Approve a new student in the table
-const toggleApprove = (ID) => ({
-    type:    types.TOGGLE_STUDENT_APPROVED,
-    payload: {
-        ID,
-        approve: false,
-    },
+// Get Student's Nationality
+const fillAllNationalities = (nationalities) => ({
+    type:    types.FILL_ALL_NATIONALITIES,
+    payload: nationalities,
 });
 
-// Get Student's Nationality
 const getNatoionality = (students) => ({
     type:    types.GET_STUDENT_NATIONALITY,
     payload: students,
@@ -62,17 +71,28 @@ const updateStudentNationality = (ID) => ({
     payload: ID,
 });
 
+const setRole = (role) => ({
+    type:    types.SET_ROLE,
+    payload: role,
+});
+
+
 export default {
     setFetchingState,
     setModalOpenState,
+    setModalMode,
+    loadStudentDataToModal,
+    clearStudentDataToModal,
 
     updateStudentNationality,
 
+    fillAllNationalities,
     getNatoionality,
     updateStudentSuccess,
     addStudentSuccess,
     modalAddStudentSuccess,
     fetchSuccess,
     fetchError,
-    toggleApprove,
+
+    setRole
 };
