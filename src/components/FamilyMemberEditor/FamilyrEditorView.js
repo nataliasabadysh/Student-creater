@@ -86,8 +86,11 @@ class FamilyMemberEditor extends Component {
                   });
 
                   const invalidNameStyle = cx({
-                      [Styles.disabledInput]: !isValid && touched.firstName && errors.firstName,
+                      [Styles.invalidInput]: !isValid && touched.firstName && errors.firstName,
                   });
+                  const invalidLastNameStyle = cx({
+                    [Styles.invalidInput]: !isValid && touched.lastName && errors.lastName,
+                });
 
                 //   const invalidRelationshipStyle = cx({
                 //       [Styles.disabledInput]: !isValid && touched.lastName && errors.lastName,
@@ -113,7 +116,7 @@ class FamilyMemberEditor extends Component {
                                       type = 'text'
                                   />
                                    <Field
-                                      className = { invalidNameStyle }
+                                      className = { invalidLastNameStyle }
                                       disabled = { isFetching }
                                       name = 'lastName'
                                       placeholder = 'LastName'

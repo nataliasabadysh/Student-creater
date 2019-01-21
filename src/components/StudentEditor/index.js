@@ -91,11 +91,11 @@ class StudentEditor extends Component {
                   });
 
                   const invalidNameStyle = cx({
-                      [Styles.disabledInput]: !isValid && touched.firstName && errors.firstName,
+                      [Styles.invalidInput]: !isValid && touched.firstName && errors.firstName,
                   });
 
                   const invalidLastNameStyle = cx({
-                      [Styles.disabledInput]: !isValid && touched.lastName && errors.lastName,
+                      [Styles.invalidInput]: !isValid && touched.lastName && errors.lastName,
                   });
 
                   const buttonStyle = cx(Styles.formSubmit, {
