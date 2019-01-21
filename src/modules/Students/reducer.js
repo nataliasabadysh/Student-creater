@@ -2,13 +2,19 @@
 import types from './types';
 
 const initialState = {
+    // ui
     isFetching:    false,
     isModalOpen:   false,
     modalMode:     'create',
-    students:      [],
     role:          'registrar',
+
+    // meta
     nationalities: [],
 
+    // students
+    students:      [],
+
+    // studentDataInModal
     studentDataInModal: {
         ID:            0,
         firstName:     '',
@@ -30,13 +36,16 @@ export function studentsReducer (state = initialState, { type, payload }) {
         case types.SET_MODAL_MODE:
             return { ...state, modalMode: payload };
 
+        case types.SET_ROLE:
+            return { ...state, role: payload };
+
         case types.LOAD_STUDENT_DATA_TO_MODAL:
             return { ...state, studentDataInModal: payload };
 
         case types.CLEAR_STUDENT_DATA_TO_MODAL:
             return { ...state, studentDataInModal: initialState.studentDataInModal };
 
-        case types.FETCH_STUDENT_SUCCESS:
+        case types.FILL_STUDENTS:
             return { ...state, students: payload };
 
         case types.FILL_ALL_NATIONALITIES:
@@ -45,16 +54,17 @@ export function studentsReducer (state = initialState, { type, payload }) {
         case types.ADD_STUDENT_SUCCESS:
             return { ...state, students: [...state.students, payload]};
 
-        case types.UPDATE_STUDENT_NATIONALITY:
-            return state.map((students) => students.id === payload.id ? payload : students);
+        case types.UPDATE_STUDENT:
+            return {...state, students: state.students.map((student) => student.ID === payload.ID ? payload : student) }
+
+        // case types.UPDATE_STUDENT_NATIONALITY:
+        //     return state.map((students) => students.id === payload.id ? payload : students);
             
         case types.GET_STUDENT_NATIONALITY:
             return { ...state, payload };
 
             // Roles 
 
-        case types.SET_ROLE:
-            return { ...state, role: payload };
 
         default:
             return state;

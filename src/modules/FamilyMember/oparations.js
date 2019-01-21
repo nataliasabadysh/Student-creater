@@ -14,7 +14,7 @@ const fetchFamilyMemberSuccessAsync = () => async (dispatch) => {
 const addFamilyMemberSuccessAsync = () => async (dispatch) => {
     try {
         //  PUT Saving new Member 
-        const response = await axios.put(`http://localhost:8088/api/FamilyMembers/{id}`)
+        const response = await axios.put(`http://localhost:8088/api/FamilyMembers/{id}`)  
     
         // POST: Creates a new Family Member for a particular Student (without the nationality)
        await axios.post(`http://localhost:8088/api/Students/{id}/FamilyMembers/`)

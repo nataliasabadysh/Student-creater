@@ -8,7 +8,7 @@ import FamilyrEditorView from '../FamilyMemberEditor/FamilyrEditorView';
 
 // Instruments
 import Styles from './Modal.module.css';
-import { actions } from '../../modules/Students';
+import { actions, operations } from '../../modules/Students';
 
 class Modal extends Component {
    backdropRef = createRef();
@@ -39,11 +39,37 @@ class Modal extends Component {
    };
 
    render () {
+       const { modalMode } = this.props;
+
+       const modalHeadingText = modalMode === 'create' ? 'Create student' : 'Update student'
+
        return this.props.isModalOpen &&
            (<div className = { Styles.backDrop } ref = { this.backdropRef } onClick = { this.handelBackdropClick }>
                <div className = { Styles.modal }>
-                   <section className = { Styles.sections }><StudentEditor /></section>
-                   <section className = { Styles.sections }><FamilyrEditorView /></section>
+                   <h1>{modalHeadingText}</h1>
+                   <section className = { Styles.sections }>
+                    <StudentEditor 
+                       isFetching = {this.props.isFetching}
+                       role = { this.props.role }
+                       studentDataInModal = { this.props.studentDataInModal }
+                       nationalities = { this.props.nationalities } 
+                       modalMode = { this.props.modalMode}
+                       addStudentAsync = { this.props.addStudentAsync}
+                       clearStudentDataToModal = {this.props.clearStudentDataToModal}
+                       setModalMode = {this.props.setModalMode}
+                       updateStudentAsync = { this.props.updateStudentAsync}
+                        
+                       />
+                    </section>
+                   <section className = { Styles.sections }>
+                        <FamilyrEditorView
+                            isFetching = {this.props.isFetching}
+                            role = { this.props.role }
+                            studentDataInModal = { this.props.studentDataInModal }
+                            nationalities = { this.props.nationalities } 
+                            modalMode = { this.props.modalMode}
+                        />
+                    </section>
                    <button type = 'button' onClick = { () => this.props.setModalOpenState(false) }> Close </button>
                </div>
            </div>
@@ -54,10 +80,22 @@ class Modal extends Component {
 
 const mapStateToProps = (state) => ({
     isModalOpen:        state.students.isModalOpen,
+    isFetching:         state.students.isFetching,
+    role:               state.students.role,
+    studentDataInModal: state.students.studentDataInModal,
+    nationalities:      state.students.nationalities,
+    modalMode:          state.students.modalMode,
+
+    // вынести в селектор возможноть редактировать поле (то, что мы проверяем в модалке – isFetching || modalMode !== 'create' && role === 'admin')
+    // isAbleToEdit: checkIsAbleToEdit(state);
 });
 
 const mapDispatchToProps = {
-    setModalOpenState: actions.setModalOpenState,
+    addStudentAsync:         operations.addStudentAsync,
+    updateStudentAsync:      operations.updateStudentAsync,
+    clearStudentDataToModal: actions.clearStudentDataToModal,
+    setModalMode:            actions.setModalMode,
+    setModalOpenState:       actions.setModalOpenState,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Modal);

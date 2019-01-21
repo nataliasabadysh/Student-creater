@@ -19,9 +19,20 @@ const fetchStudentsAsync = () => async (dispatch) => {
     try {
         dispatch(actions.setFetchingState(true));
 
-        const response = await axios.get('http://localhost:8088/api/Students/');
+        const students = await axios.get('http://localhost:8088/api/Students/');
+        const promises = students.data.map((student) => {
+            return axios.get(`http://localhost:8088/api/Students/${student.ID}/Nationality`);
+        })
+        const nationalities = await Promise.all(promises);
+ // family memb + promice all 
+        const studentsWithNationalities = students.data.map((student, index) => {
+            return {
+                ...student,
+                ...nationalities[index].data,
+            }
+        })
 
-        dispatch(actions.fetchSuccess(response.data));
+        dispatch(actions.fillStudents(studentsWithNationalities));
         dispatch(actions.setFetchingState(false));
     } catch (error) {
         dispatch(actions.fetchError(error));
@@ -34,13 +45,16 @@ const addStudentAsync = (studentData) => async (dispatch) => {
         dispatch(actions.setFetchingState(true));
 
         // Создаем студента
-        const response = await axios.post('http://localhost:8088/api/Students/', studentData);
+        const createdStudent = await axios.post('http://localhost:8088/api/Students/', studentData);
 
         // и устанавливаем ему национальность
-        await axios.put(`http://localhost:8088/api/Students/${response.data.ID}/Nationality/${studentData.nationalityId}`);
+        const studentWithNationality = await axios.put(`http://localhost:8088/api/Students/${createdStudent.data.ID}/Nationality/${studentData.nationalityId}`);
+    
+        // if (studentData.familyMembers) – создать мембера запросом
+        // if (!studentData.familyMembers) – пропускаем этот шаг
         await delay();
 
-        dispatch(actions.addStudentSuccess(response.data));
+        dispatch(actions.addStudentSuccess({ ...createdStudent.data, ...studentWithNationality.data }));
         dispatch(actions.setFetchingState(false));
         dispatch(actions.setModalOpenState(false));
     } catch (error) {
@@ -49,16 +63,19 @@ const addStudentAsync = (studentData) => async (dispatch) => {
 };
 
 // Update Student
-// const UpdateStudentAsync = students => async (dispatch)=> {
-//   try{
-//     dispatch(actions.setFetchingState(true));
-//     const response = await axios.put(`http://localhost:8088/api/Students/{id}`, students);
-//     dispatch(actions.updateStudentSuccess({data}));
-//     dispatch(actions.addStudentSuccess(response.data));
-//     dispatch(actions.setFetchingState(false));
-//   }
-//   catch(error) {
-//     dispatch(actions.fetchError(error))
-// }
+const updateStudentAsync = studentData => async (dispatch) => {
+  try{
+    dispatch(actions.setFetchingState(true));
+    const updatedStudent = await axios.put(`http://localhost:8088/api/Students/${studentData.ID}`, studentData);
+    const studentWithNationality = await axios.put(`http://localhost:8088/api/Students/${studentData.ID}/Nationality/${studentData.nationalityId}`);
+    await delay();
+    dispatch(actions.updateStudent({ ...updatedStudent.data, ...studentWithNationality.data }));
+    dispatch(actions.setFetchingState(false));
+    dispatch(actions.setModalOpenState(false));
+  }
+  catch(error) {
+    dispatch(actions.fetchError(error))
+}
+}
 
-export default { fetchStudentsAsync, addStudentAsync, fetchNationalitiesAsync };
+export default { fetchStudentsAsync, addStudentAsync, fetchNationalitiesAsync, updateStudentAsync };

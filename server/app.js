@@ -98,6 +98,7 @@ app.get('/api/Students/:studentID/FamilyMembers/', ({ params: { studentID } }, r
     res.send(familyMembersForStudent);
 });
 
+// Создать нового фемили мембера для студента
 app.post('/api/Students/:studentID/FamilyMembers/', (req, res) => {
     const { body: { firstName, lastName, dateOfBirth, relationship }, params: { studentID } } = req; 
     const studentToUpdate = students.find(s => s.ID === parseInt(studentID, 10));

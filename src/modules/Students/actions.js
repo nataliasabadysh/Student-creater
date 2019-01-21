@@ -26,8 +26,8 @@ const clearStudentDataToModal = () => ({
     type: types.CLEAR_STUDENT_DATA_TO_MODAL,
 });
 
-const fetchSuccess = (students) => ({
-    type:    types.FETCH_STUDENT_SUCCESS,
+const fillStudents = (students) => ({
+    type:    types.FILL_STUDENTS, // FILL_STUDENTS
     payload: students,
 });
 
@@ -43,9 +43,9 @@ const addStudentSuccess = (students) => ({
 });
 
 // Update Student Action
-const updateStudentSuccess = (students) => ({
-    type:    types.UPDATE_STUDENT_SUCCES,
-    payload: students,
+const updateStudent = (student) => ({
+    type:    types.UPDATE_STUDENT,
+    payload: student,
 });
 
 // Modal  to Add Student
@@ -88,11 +88,11 @@ export default {
 
     fillAllNationalities,
     getNatoionality,
-    updateStudentSuccess,
+    updateStudent,
     addStudentSuccess,
     modalAddStudentSuccess,
-    fetchSuccess,
+    fillStudents,
     fetchError,
 
-    setRole
+    setRole,
 };

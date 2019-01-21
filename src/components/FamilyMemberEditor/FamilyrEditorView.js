@@ -1,6 +1,5 @@
 // Core
 import React, { Component, createRef } from 'react';
-import { connect } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import { object, string } from 'yup';
 import cx from 'classnames';
@@ -21,7 +20,7 @@ const schema = object().shape({
 });
 
 // const delay = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout));
-class FamilyMemberEditor extends Component {
+export default class FamilyMemberEditor extends Component {
     options = [{
         value: 'parent',
         label: 'Parent',
@@ -102,7 +101,7 @@ class FamilyMemberEditor extends Component {
                   const buttonStyle = cx(Styles.formSubmit, {
                       [Styles.disabledButton]: isFetching,
                   });
-                  const buttonMessage = isFetching ? 'Creating new Family Member...' : 'Family Member';
+                  const buttonMessage = isFetching ? 'Creating...' : 'Family Member';
 
                   return (
                       <Form className = { Styles.form }>
@@ -127,6 +126,7 @@ class FamilyMemberEditor extends Component {
                                       options = { this.options }
                                       value = { selectedOption }
                                       onChange = { this._selectRelationship }
+                                      
                                   />
                                   <Field
                                       className = { invalidNationalityStyle }
@@ -149,22 +149,3 @@ class FamilyMemberEditor extends Component {
       );
   }
 }
-
-const mapStateToProps = (state) => ({
-    isFetching:         state.students.isFetching,
-    role:               state.students.role,
-    studentDataInModal: state.students.studentDataInModal,
-    nationalities:      state.students.nationalities,
-    modalMode:          state.students.modalMode,
-});
-
-// const mapDispatchToProps = {
-//     addStudentAsync:         operations.addStudentAsync,
-//     clearStudentDataToModal: actions.clearStudentDataToModal,
-//     setModalMode:            actions.setModalMode,
-// };
-
-export default connect(
-    mapStateToProps,
-    // mapDispatchToProps
-)(FamilyMemberEditor);
