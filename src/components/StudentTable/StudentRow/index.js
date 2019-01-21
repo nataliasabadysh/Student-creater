@@ -7,14 +7,13 @@ import './styles.module.css';
 
 const header = ['First Name', 'Last Name', 'Date Of Birth',  'Approve'];
 
-const StudentView = ({ role, ID, lastName, firstName, dateOfBirth, nationality, loadStudentDataToModal, setModalOpenState, setModalMode }) => (
+const StudentView = ({ role, ID, lastName, firstName, dateOfBirth, nationality, loadStudentDataToModal, setModalOpenState, setModalMode , date}) => (
         <table onClick = { (event) => {
             if (event.target.type !== 'checkbox') {
                 loadStudentDataToModal({ ID, firstName, lastName, nationality })
                 setModalOpenState(true)
                 setModalMode('update');
             }
-            
         }}>
             <tbody >
                 <tr>
@@ -22,11 +21,11 @@ const StudentView = ({ role, ID, lastName, firstName, dateOfBirth, nationality, 
                         <th key = { item }>{item}</th>
                     ))}
                 </tr>
-                <tr>
+                <tr >
                     <td>{firstName}</td>
                     <td>{lastName}</td>
                     <td>
-                        <Moment format = 'YYYY/MM/DD'>
+                        <Moment format = 'YYYY/MM/DD' onChange={date}>
                             {dateOfBirth }
                         </Moment>
                     </td>

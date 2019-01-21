@@ -32,12 +32,17 @@ class FamilyMemberEditor extends Component {
         value: 'spouse',
         label: 'Spouse',
     }]
+    
     formikForm = createRef();
  
   state = {
       relationship: 'parent',
-      //   Nationality:  [],
   };
+
+  // Add fetchNationalityFamilyAsync
+//   componentDidMount () {
+//     this.props.fetchNationalityFamilysAsync();
+// }
 
   _selectRelationship = (selectedOption) => {
 
@@ -47,7 +52,7 @@ class FamilyMemberEditor extends Component {
   }
 
   _submittingFamilyMember = (Data) => {
-      //  this.props.addStudentAsync(Data);
+    //    this.props.addStudentAsync(Data);
   };
 
   _createPost = ({ Name, Relationship, Nationality }) => {
@@ -84,9 +89,9 @@ class FamilyMemberEditor extends Component {
                       [Styles.disabledInput]: !isValid && touched.firstName && errors.firstName,
                   });
 
-                  const invalidRelationshipStyle = cx({
-                      [Styles.disabledInput]: !isValid && touched.lastName && errors.lastName,
-                  });
+                //   const invalidRelationshipStyle = cx({
+                //       [Styles.disabledInput]: !isValid && touched.lastName && errors.lastName,
+                //   });
 
                   const invalidNationalityStyle = cx({
                       [Styles.disabledInput]: !isValid && touched.nationality && errors.nationality,
@@ -105,6 +110,13 @@ class FamilyMemberEditor extends Component {
                                       disabled = { isFetching }
                                       name = 'firstName'
                                       placeholder = 'Name'
+                                      type = 'text'
+                                  />
+                                   <Field
+                                      className = { invalidNameStyle }
+                                      disabled = { isFetching }
+                                      name = 'lastName'
+                                      placeholder = 'LastName'
                                       type = 'text'
                                   />
                                   <Select
