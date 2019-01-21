@@ -9,6 +9,8 @@ import Styles from './slyles.module.css';
 
 // Avatar
 import avatar from './assets/download.png';
+// import avatarRegistrar from './assets/Registrar.png';
+
 
 class Header extends Component {
     options = [
@@ -25,7 +27,7 @@ class Header extends Component {
 
       return (
           <header className = { Styles.header }>
-              <img alt = 'User avatar' height = '55' src = { avatar  } width = '55' />
+              <img alt = 'User avatar' height = '55' src = { avatar } width = '55' />
               <div className = { Styles.Selector }>
                   <Select
                       options = { this.options }

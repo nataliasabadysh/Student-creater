@@ -63,8 +63,8 @@ export function studentsReducer (state = initialState, { type, payload }) {
         case types.GET_STUDENT_NATIONALITY:
             return { ...state, payload };
 
-            // Roles 
-
+        case types.GET_STUDENT_FAMILY_MEMBER:
+            return { ...state, payload };
 
         default:
             return state;

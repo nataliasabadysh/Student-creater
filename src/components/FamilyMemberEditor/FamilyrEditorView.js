@@ -5,8 +5,9 @@ import { object, string } from 'yup';
 import cx from 'classnames';
 import Select from 'react-select';
 
-// Component
-// import { oparations } from '../../modules/Students';
+// Data Picker
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 // Instruments
 import Styles from '../StudentEditor/styles.module.css';
@@ -15,12 +16,10 @@ import Styles from '../StudentEditor/styles.module.css';
 const schema = object().shape({
     firstName: string().required(),
     lastName:  string().required(),
-    // dateOfBirth: string().required(),
-    // nationality: string().required(),
 });
 
-// const delay = (timeout) => new Promise((resolve) => setTimeout(resolve, timeout));
 export default class FamilyMemberEditor extends Component {
+
     options = [{
         value: 'parent',
         label: 'Parent',
@@ -31,52 +30,65 @@ export default class FamilyMemberEditor extends Component {
         value: 'spouse',
         label: 'Spouse',
     }]
-    
+
+    nationalityOptions = this.props.nationalities.map((nationality) => {
+        return {
+            value: nationality.Title.toLowerCase(),
+            label: nationality.Title,
+        };
+    });
+    _selectNationality = (selectedNatoinalityOption) => {
+        this.setState({
+            nationality: selectedNatoinalityOption.value,
+        });
+    }
     formikForm = createRef();
- 
-  state = {
-      relationship: 'parent',
-  };
 
-  // Add fetchNationalityFamilyAsync
-//   componentDidMount () {
-//     this.props.fetchNationalityFamilysAsync();
-// }
+    state = {
+        relationship: 'parent',
+        nationality:  this.props.nationalities[0].Title.toLowerCase() || '',
+        dateOfBirth:  new Date(),
 
-  _selectRelationship = (selectedOption) => {
+    };
 
-      this.setState({
-          relationship: selectedOption.value,
-      });
-  }
+    _selectRelationship = (selectedOption) => {
+        this.setState({
+            relationship: selectedOption.value,
+        });
+    }
 
-  _submittingFamilyMember = (Data) => {
+    _submittingFamilyMember = (Data) => {
+
     //    this.props.addStudentAsync(Data);
-  };
-
-  _createPost = ({ Name, Relationship, Nationality }) => {
-      this.props.actions.addStudentAsync({ Name, Relationship, Nationality });
-  };
+    };
+    _selectDateOfBirth = (date) => {
+        this.setState({
+            dateOfBirth: date,
+        });
+    }
 
   //   deleteFamilyMember = ID => {
   //     const { actions, ID } = this.props;
   //     actions.deleteFamilyMemberAsync(ID);
   // };
 
-  render () {
-      const { isFetching, role, modalMode } = this.props;
+    render () {
+        const { nationality: selectedNationality } = this.state;
+        const { isFetching, role, modalMode } = this.props;
 
-      const selectedOption = this.options.find((relationship) => relationship.value === this.state.relationship);
+        const selectedOption = this.options.find((relationship) => relationship.value === this.state.relationship);
+        const selectedNatoinalityOption = this.options.find((nationality) => nationality.value === selectedNationality);
 
-      return (
-          <Formik
-              initialValues = { {
+        return (
+            <Formik
+                initialValues = { {
                   firstName: '',
                   lastName:  '',
               } }
-              validationSchema = { schema }
-              onSubmit = { this._submittingFamilyMember }
-              render = { (props) => {
+                validationSchema = { schema }
+                onSubmit = { this._submittingFamilyMember }
+                
+                render = { (props) => {
 
                   const { isValid, touched, errors } = props;
 
@@ -88,16 +100,9 @@ export default class FamilyMemberEditor extends Component {
                       [Styles.invalidInput]: !isValid && touched.firstName && errors.firstName,
                   });
                   const invalidLastNameStyle = cx({
-                    [Styles.invalidInput]: !isValid && touched.lastName && errors.lastName,
-                });
-
-                //   const invalidRelationshipStyle = cx({
-                //       [Styles.disabledInput]: !isValid && touched.lastName && errors.lastName,
-                //   });
-
-                  const invalidNationalityStyle = cx({
-                      [Styles.disabledInput]: !isValid && touched.nationality && errors.nationality,
+                      [Styles.invalidInput]: !isValid && touched.lastName && errors.lastName,
                   });
+
                   const buttonStyle = cx(Styles.formSubmit, {
                       [Styles.disabledButton]: isFetching,
                   });
@@ -109,43 +114,50 @@ export default class FamilyMemberEditor extends Component {
                               <div>
                                   <Field
                                       className = { invalidNameStyle }
-                                      disabled = { isFetching }
+                                      disabled = { isFetching || modalMode !== 'create' && role === 'admin' }
                                       name = 'firstName'
                                       placeholder = 'Name'
                                       type = 'text'
                                   />
-                                   <Field
+                                  <Field
                                       className = { invalidLastNameStyle }
-                                      disabled = { isFetching }
+                                      disabled = { isFetching || modalMode !== 'create' && role === 'admin' }
+
                                       name = 'lastName'
                                       placeholder = 'LastName'
                                       type = 'text'
+                                  />
+                                  <DatePicker
+                                      showYearDropdown
+                                      dropdownMode = 'select'
+                                      disabled = { isFetching || modalMode !== 'create' && role === 'admin' }
+                                      selected = { this.state.dateOfBirth }
+                                      onChange = { this._selectDateOfBirth }
                                   />
                                   <Select
                                       isDisabled = { isFetching || modalMode !== 'create' && role === 'admin' }
                                       options = { this.options }
                                       value = { selectedOption }
                                       onChange = { this._selectRelationship }
-                                      
+
                                   />
-                                  <Field
-                                      className = { invalidNationalityStyle }
-                                      disabled = { isFetching }
-                                      name = 'Nationality'
-                                      placeholder = 'Nationality'
-                                      type = 'text'
+                                  <Select
+                                      isDisabled = { isFetching || /* isAbleToEdit */ modalMode !== 'create' && role === 'admin' }
+                                      options = { this.nationalityOptions }
+                                      value = { selectedNatoinalityOption }
+                                      onChange = { this._selectNationality }
                                   />
 
                                   <button className = { buttonStyle } disabled = { isFetching } type = 'submit'>
                                       { buttonMessage }
                                   </button>
-                                  <button type = 'submit'> Delete  </button>
+                                  <button type = 'submit'>Delete</button>
                               </div>
                           </div>
                       </Form>
                   );
               } }
-          />
-      );
-  }
+            />
+        );
+    }
 }

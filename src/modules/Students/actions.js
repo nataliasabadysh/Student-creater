@@ -76,6 +76,12 @@ const setRole = (role) => ({
     payload: role,
 });
 
+// GET FAMILY MEMBER
+const getFamilyMemberStudent = (student) => ({
+    type:    types.GET_STUDENT_NATIONALITY,
+    payload: student,
+});
+
 
 export default {
     setFetchingState,
@@ -95,4 +101,6 @@ export default {
     fetchError,
 
     setRole,
+
+    getFamilyMemberStudent, 
 };

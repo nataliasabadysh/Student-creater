@@ -9,7 +9,6 @@ import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-
 // Instruments
 import Styles from './styles.module.css';
 
@@ -17,8 +16,6 @@ import Styles from './styles.module.css';
 const schema = object().shape({
     firstName: string().required(),
     lastName:  string().required(),
-    // dateOfBirth:   number().required(),
-    // nationalities: string().required(),
 });
 
 export default class StudentEditor extends Component {
@@ -31,11 +28,11 @@ export default class StudentEditor extends Component {
     formikForm = createRef();
 
     state = {
-      //dateOfBirth:   '',
+
         nationality: (this.props.studentDataInModal.nationality && this.props.studentDataInModal.nationality.Title.toLowerCase()) || this.props.nationalities[0].Title.toLowerCase() || '',
         dateOfBirth: (this.props.studentDataInModal.dateOfBirth && new Date(this.props.studentDataInModal.dateOfBirth)) || new Date(),
     };
-
+    
     _selectDateOfBirth = (date) => {
         this.setState({
             dateOfBirth: date,
@@ -87,7 +84,7 @@ export default class StudentEditor extends Component {
         if (modalMode === 'create' && isFetching) {
             buttonMessage = 'Creating...' ;
         } else if (modalMode === 'update'  && !isFetching) {
-            buttonMessage = 'Update' ;
+            buttonMessage = 'Update';
         } else if (modalMode === 'update' && isFetching) {
             buttonMessage = 'Updating...' ;
         }
@@ -150,6 +147,9 @@ export default class StudentEditor extends Component {
                                   />
 
                                   <DatePicker
+                                      showYearDropdown
+                                      dropdownMode="select"
+                                      disabled = { isFetching || modalMode !== 'create' && role === 'admin' }
                                       selected = { this.state.dateOfBirth }
                                       onChange = { this._selectDateOfBirth }
                                   />

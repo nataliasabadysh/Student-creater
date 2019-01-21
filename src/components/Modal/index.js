@@ -1,7 +1,6 @@
 // Core
 import React, { Component, createRef } from "react";
 import { connect } from 'react-redux';
-
 // Components
 import StudentEditor from '../StudentEditor';
 import FamilyrEditorView from '../FamilyMemberEditor/FamilyrEditorView';
@@ -11,70 +10,71 @@ import Styles from './Modal.module.css';
 import { actions, operations } from '../../modules/Students';
 
 class Modal extends Component {
-   backdropRef = createRef();
+    backdropRef = createRef();
 
-   state = {
-       familyMembersCount: 1, // можно увеличивать, уменьшать 
-   }
+//    state = {
+//        familyMembersCount: '', // можно увеличивать, уменьшать
+//    }
 
-   async componentDidMount () {
-       window.addEventListener('keydown', this.handleKeyPress);
+    async componentDidMount () {
+        window.addEventListener('keydown', this.handleKeyPress);
+    }
+    componentWillUnmount () {
+        window.removeEventListener('keydown', this.handleKeyPress);
+    }
+    handleKeyPress = (e) => {
+        if (e.code !== 'Escape') {
+            return;
+        }
+        this.props.setModalOpenState(false);
+    };
+    handelBackdropClick = (e) => {
+        if (e.target!== this.backdropRef.current) {
+            return;
+        }
+        this.props.setModalOpenState(false);
+    };
 
-       // ПОЛУЧАЕМ НАЦИОНАЛЬНОСТЬ СТУДЕНТА – ЭТО В редакс мы договорились не выносить, потому что больше нигде эта инфа использоватся не будет
-       // const r = await fetch( 'http://localhost:8088/api/Students/16984/Nationality/', { method: 'GET'});
-       // const rr = await r.json()
+    render () {
+        const { modalMode } = this.props;
 
-      // console.log(rr);
-   }
-   componentWillUnmount () {
-       window.removeEventListener('keydown', this.handleKeyPress);
-   }
-   handleKeyPress = (e) => {
-       if (e.code !== 'Escape') { return; }
-       this.props.setModalOpenState(false);
-   };
-   handelBackdropClick = (e) => {
-       if (e.target!== this.backdropRef.current) { return; }
-       this.props.setModalOpenState(false);
-   };
+        const modalHeadingText = modalMode === 'create' ? 'Create student' : 'Update student';
 
-   render () {
-       const { modalMode } = this.props;
-
-       const modalHeadingText = modalMode === 'create' ? 'Create student' : 'Update student'
-
-       return this.props.isModalOpen &&
+        return this.props.isModalOpen &&
            (<div className = { Styles.backDrop } ref = { this.backdropRef } onClick = { this.handelBackdropClick }>
                <div className = { Styles.modal }>
-                   <h1>{modalHeadingText}</h1>
+                    <h1>{modalHeadingText}</h1>
+
                    <section className = { Styles.sections }>
-                    <StudentEditor 
-                       isFetching = {this.props.isFetching}
-                       role = { this.props.role }
-                       studentDataInModal = { this.props.studentDataInModal }
-                       nationalities = { this.props.nationalities } 
-                       modalMode = { this.props.modalMode}
-                       addStudentAsync = { this.props.addStudentAsync}
-                       clearStudentDataToModal = {this.props.clearStudentDataToModal}
-                       setModalMode = {this.props.setModalMode}
-                       updateStudentAsync = { this.props.updateStudentAsync}
-                        
+                       <StudentEditor
+                           isFetching = { this.props.isFetching }
+                           
+                           role = { this.props.role }
+                           studentDataInModal = { this.props.studentDataInModal }
+                           nationalities = { this.props.nationalities }
+                           modalMode = { this.props.modalMode }
+                           addStudentAsync = { this.props.addStudentAsync }
+                           clearStudentDataToModal = { this.props.clearStudentDataToModal }
+                           setModalMode = { this.props.setModalMode }
+                           updateStudentAsync = { this.props.updateStudentAsync }
                        />
-                    </section>
+                   </section>
+
                    <section className = { Styles.sections }>
                         <FamilyrEditorView
-                            isFetching = {this.props.isFetching}
+                            isFetching = { this.props.isFetching }
                             role = { this.props.role }
                             studentDataInModal = { this.props.studentDataInModal }
-                            nationalities = { this.props.nationalities } 
-                            modalMode = { this.props.modalMode}
+                            nationalities = { this.props.nationalities }
+                            modalMode = { this.props.modalMode }
                         />
-                    </section>
-                   <button type = 'button' onClick = { () => this.props.setModalOpenState(false) }> Close </button>
+                   </section>
+                   <button type = 'button' onClick = { () => this.props.setModalOpenState(false) }>X</button>
                </div>
+               
            </div>
            );
-   }
+    }
 
 }
 
