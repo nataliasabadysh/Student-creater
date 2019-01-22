@@ -20,32 +20,44 @@ const fetchStudentsAsync = () => async (dispatch) => {
         dispatch(actions.setFetchingState(true));
 
         const students = await axios.get('http://localhost:8088/api/Students/');
-        const promises = students.data.map((student) => {
+        const studentsNationalitiesPromises = students.data.map((student) => {
             return axios.get(`http://localhost:8088/api/Students/${student.ID}/Nationality`);
         })
-        const nationalities = await Promise.all(promises);
+        const nationalities = await Promise.all(studentsNationalitiesPromises);
 
+   
+
+
+        
+
+
+
+         const familyMembersPromises = students.data.map((student) => {
+            return axios.get(`http://localhost:8088/api/Students/${student.ID}/FamilyMembers/`);
+        });
+  
+        const familyMembers = await Promise.all(familyMembersPromises);
+        console.log(familyMembers)
+        const studentWithFamilyMember = students.data.map((familyMember, index) => {
+
+            return {
+                ...familyMember,
+                ...familyMember[index].data,
+            };
+        });
+
+
+        /*
+        GET: Gets Family Members for a particular Student
+    http://localhost:8088/api/FamilyMembers/ {id} /Nationality/ {id}
+
+ */
         const studentsWithNationalities = students.data.map((student, index) => {
             return {
                 ...student,
                 ...nationalities[index].data,
             }
-        })
-        // ForFamily  Member
-         // Gets Family Members for a particular Student
-        //  const promisesFamily = students.data.map((student) => {
-        //     return axios.get(`http://localhost:8088/api/Students/${student.data.ID}/FamilyMembers/`);
-        // });
-  
-        // const familyMembers = await Promise.all(promisesFamily);
-        // const studentWithFamilyMember = students.data.map((familyMember, index) => {
-
-        //     return {
-        //         ...familyMember,
-        //         ...familyMember[index].data,
-        //     };
-        // });
-
+        });
 
         dispatch(actions.fillStudents(studentsWithNationalities));
         dispatch(actions.setFetchingState(false));
@@ -65,6 +77,13 @@ const addStudentAsync = (studentData) => async (dispatch) => {
         // и устанавливаем ему национальность
         const studentWithNationality = await axios.put(`http://localhost:8088/api/Students/${createdStudent.data.ID}/Nationality/${studentData.nationalityId}`);
 
+
+        /*
+        POST: Creates a new Family Member for a particular Student (without the nationality)
+                http://localhost:8088/api/Students / {id} /FamilyMembers/
+
+
+        */
         // if (studentData.familyMembers) {
         //   const studentsFamilyMembes  = await axios.put(`http://localhost:8088/api/Students/${student.data.ID}/FamilyMembers/`);
         //   const familyMemberWithNationality  = await axios.put (`http://localhost:8088/api/FamilyMembers/${familyMember.ID}/Nationality/{id}`)
