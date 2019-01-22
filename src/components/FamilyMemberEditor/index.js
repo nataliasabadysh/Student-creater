@@ -1,5 +1,5 @@
 // Core
-import React, { Component } from 'react';
+import React, { Component, forwardRef } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { object, string } from 'yup';
 import cx from 'classnames';
@@ -10,34 +10,56 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 // Instruments
-import Styles from './styles.module.css';
+import Styles from '../StudentEditor/styles.module.css';
 
 // Validation  Form
 const schema = object().shape({
     firstName: string().required(),
     lastName:  string().required(),
-    // dateOfBirth:   number().required(),
-    // nationalities: string().required(),
 });
 
-export default class StudentEditor extends Component {
-    options = this.props.nationalities.map((nationality) => {
+class FamilyMemberEditor extends Component {
+    options = [
+        {
+            value: 'parent',
+            label: 'Parent',
+        },
+        {
+            value: 'sibling',
+            label: 'Sibling',
+        },
+        {
+            value: 'spouse',
+            label: 'Spouse',
+        }
+    ];
+
+    nationalityOptions = this.props.nationalities.map((nationality) => {
         return {
             value: nationality.Title.toLowerCase(),
             label: nationality.Title,
         };
     });
+    _selectNationality = (selectedNatoinalityOption) => {
+        this.setState({
+            nationality: selectedNatoinalityOption.value,
+        });
+    };
 
     state = {
-        nationality:
-            this.props.studentDataInModal.nationality &&
-                this.props.studentDataInModal.nationality.Title.toLowerCase() ||
-            this.props.nationalities[0].Title.toLowerCase() ||
-            '',
-        dateOfBirth:
-            this.props.studentDataInModal.dateOfBirth &&
-                new Date(this.props.studentDataInModal.dateOfBirth) ||
-            new Date(),
+        relationship: 'parent',
+        nationality:  this.props.nationalities[0].Title.toLowerCase() || '',
+        dateOfBirth:  new Date(),
+    };
+
+    _selectRelationship = (selectedOption) => {
+        this.setState({
+            relationship: selectedOption.value,
+        });
+    };
+
+    _submittingFamilyMember = (familyMemberData) => {
+        console.log('→ FAMILY MEMBER SUBMITTED', familyMemberData);
     };
 
     _selectDateOfBirth = (date) => {
@@ -46,71 +68,31 @@ export default class StudentEditor extends Component {
         });
     };
 
-    componentWillUnmount () {
-        this.props.clearStudentDataToModal();
-        this.props.setModalMode('create');
-    }
-
-    componentDidMount () {
-        const { studentDataInModal, nationalities } = this.props;
-
-        this.setState({
-            nationality:
-                studentDataInModal.nationality &&
-                    studentDataInModal.nationality.Title.toLowerCase() ||
-                nationalities[0].Title.toLowerCase(),
-        });
-    }
-
-    _createStudent = (studentData) => {
-        this.props._createStudent({
-            ...studentData,
-            ID:            this.props.studentDataInModal.ID,
-            nationalityId: this.props.nationalities.find(
-                (nationality) =>
-                    nationality.Title.toLowerCase() === this.state.nationality,
-            ).ID,
-            dateOfBirth: this.state.dateOfBirth.toISOString(),
-        });
-    };
-
-    _selectNationality = (selectedOption) => {
-        this.setState({
-            nationality: selectedOption.value,
-        });
-    };
-
-    _getSubmitButtonMessage = () => {
-        const { isFetching, modalMode } = this.props;
-
-        let buttonMessage = 'Create';
-
-        if (modalMode === 'create' && isFetching) {
-            buttonMessage = 'Creating...';
-        } else if (modalMode === 'update' && !isFetching) {
-            buttonMessage = 'Update';
-        } else if (modalMode === 'update' && isFetching) {
-            buttonMessage = 'Updating...';
-        }
-
-        return buttonMessage;
-    };
+    //   deleteFamilyMember = ID => {
+    //     const { actions, ID } = this.props;
+    //     actions.deleteFamilyMemberAsync(ID);
+    // };
 
     render () {
         const { nationality: selectedNationality } = this.state;
-        const { isFetching, studentDataInModal, role, modalMode } = this.props;
+        const { isFetching, role, modalMode } = this.props;
 
         const selectedOption = this.options.find(
+            (relationship) => relationship.value === this.state.relationship,
+        );
+        const selectedNationalityOption = this.options.find(
             (nationality) => nationality.value === selectedNationality,
         );
 
         return (
             <Formik
                 initialValues = { {
-                    firstName: studentDataInModal.firstName,
-                    lastName:  studentDataInModal.lastName,
+                    firstName: '',
+                    lastName:  '',
                 } }
-                onSubmit = { this._createStudent }
+                ref = { this.props.familyMemberFormRef }
+                validationSchema = { schema }
+                onSubmit = { this._submittingFamilyMember }
                 render = { (props) => {
                     const { isValid, touched, errors } = props;
 
@@ -122,7 +104,6 @@ export default class StudentEditor extends Component {
                         [Styles.invalidInput]:
                             !isValid && touched.firstName && errors.firstName,
                     });
-
                     const invalidLastNameStyle = cx({
                         [Styles.invalidInput]:
                             !isValid && touched.lastName && errors.lastName,
@@ -131,8 +112,7 @@ export default class StudentEditor extends Component {
                     const buttonStyle = cx(Styles.formSubmit, {
                         [Styles.disabledButton]: isFetching,
                     });
-
-                    const buttonMessage = this._getSubmitButtonMessage();
+                    const buttonMessage = isFetching ? 'Creating...' : 'Save';
 
                     return (
                         <Form className = { Styles.form }>
@@ -157,10 +137,9 @@ export default class StudentEditor extends Component {
                                                 role === 'admin'
                                         }
                                         name = 'lastName'
-                                        placeholder = 'Last Name'
+                                        placeholder = 'LastName'
                                         type = 'text'
                                     />
-
                                     <DatePicker
                                         disabled = {
                                             isFetching ||
@@ -175,32 +154,33 @@ export default class StudentEditor extends Component {
                                     <Select
                                         isDisabled = {
                                             isFetching ||
-                                            /* isAbleToEdit */ modalMode !==
-                                                'create' &&
+                                            modalMode !== 'create' &&
                                                 role === 'admin'
                                         }
                                         options = { this.options }
                                         value = { selectedOption }
-                                        onChange = { this._selectNationality }
+                                        onChange = { this._selectRelationship }
                                     />
-
-                                    <button
-                                        className = { buttonStyle }
-                                        disabled = {
+                                    <Select
+                                        isDisabled = {
                                             isFetching ||
-                                            modalMode !== 'create' &&
+                                            /* isAbleToEdit */ modalMode !==
+                                                'create' &&
                                                 role === 'admin'
                                         }
-                                        type = 'submit'>
-                                        {buttonMessage}
-                                    </button>
+                                        options = { this.nationalityOptions }
+                                        value = { selectedNationalityOption }
+                                        onChange = { this._selectNationality }
+                                    />
                                 </div>
                             </div>
                         </Form>
                     );
                 } }
-                validationSchema = { schema }
             />
         );
     }
 }
+export default forwardRef((props, ref) => {
+    return <FamilyMemberEditor { ...props } familyMemberFormRef = { ref } />;
+});
