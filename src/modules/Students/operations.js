@@ -36,8 +36,9 @@ const fetchStudentsAsync = () => async (dispatch) => {
             return axios.get(`http://localhost:8088/api/Students/${student.ID}/FamilyMembers/`);
         });
   
+        // Тут мы получили фемили мемберов всех студентов, их нужно объединить со студентами и загрузить в редакс.
         const familyMembers = await Promise.all(familyMembersPromises);
-        console.log(familyMembers)
+/*
         const studentWithFamilyMember = students.data.map((familyMember, index) => {
 
             return {
@@ -45,7 +46,7 @@ const fetchStudentsAsync = () => async (dispatch) => {
                 ...familyMember[index].data,
             };
         });
-
+*/
 
         /*
         GET: Gets Family Members for a particular Student
@@ -76,6 +77,7 @@ const addStudentAsync = (studentData) => async (dispatch) => {
 
         // и устанавливаем ему национальность
         const studentWithNationality = await axios.put(`http://localhost:8088/api/Students/${createdStudent.data.ID}/Nationality/${studentData.nationalityId}`);
+        const studentWithNationality = await axios.put(`http://localhost:8088/api/Students/${createdStudent.data.ID}/FamilyMembers/`, familyMembers);
 
 
         /*
