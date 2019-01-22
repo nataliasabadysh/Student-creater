@@ -64,12 +64,14 @@ const addStudentAsync = (studentData) => async (dispatch) => {
 
         // и устанавливаем ему национальность
         const studentWithNationality = await axios.put(`http://localhost:8088/api/Students/${createdStudent.data.ID}/Nationality/${studentData.nationalityId}`);
-       
-        //   const studentsFamilyMembes        = await axios.put(`http://localhost:8088/api/Students/${student.data.ID}/FamilyMembers/`);
-        //   const familyMemberWithNationality = await axios.put (`http://localhost:8088/api/FamilyMembers/${familyMember.ID}/Nationality/{id}`)
-       
-        // if (studentData.familyMembers) – создать мембера запросом
-        // if (!studentData.familyMembers) – пропускаем этот шаг
+
+        // if (studentData.familyMembers) {
+        //   const studentsFamilyMembes  = await axios.put(`http://localhost:8088/api/Students/${student.data.ID}/FamilyMembers/`);
+        //   const familyMemberWithNationality  = await axios.put (`http://localhost:8088/api/FamilyMembers/${familyMember.ID}/Nationality/{id}`)
+       //  }
+
+        // if (!studentData.familyMembers) return;
+
         await delay();
 
         dispatch(actions.addStudentSuccess({ ...createdStudent.data, ...studentWithNationality.data }));
