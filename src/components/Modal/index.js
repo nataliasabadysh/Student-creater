@@ -67,18 +67,14 @@ class Modal extends Component {
                    </section>
                    <section className = { Styles.sections }>
                        <div>
-
-                           <button
-                               type = 'button' onClick = { () => (
-                                   <FamilyrEditorView
-                                       isFetching = { this.props.isFetching }
-                                       role = { this.props.role }
-                                       studentDataInModal = { this.props.studentDataInModal }
-                                       nationalities = { this.props.nationalities }
-                                       modalMode = { this.props.modalMode }
-                                   />) 
-                                   }> Add Family member 
-                            </button>
+                            <FamilyrEditorView
+                                isFetching = { this.props.isFetching }
+                                role = { this.props.role }
+                                studentDataInModal = { this.props.studentDataInModal }
+                                nationalities = { this.props.nationalities }
+                                modalMode = { this.props.modalMode }
+                             />
+                            <button type = 'button'> Add Family member  </button>
                        </div>
                    </section>
                    <button type = 'button' onClick = { () => this.props.setModalOpenState(false) }> X </button>
