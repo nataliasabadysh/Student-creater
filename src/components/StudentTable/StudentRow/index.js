@@ -45,3 +45,45 @@ const StudentView = ({ role, ID, lastName, firstName, dateOfBirth, nationality, 
 
 export default StudentView;
 
+/*
+
+import React from 'react';
+import './styles.module.css';
+
+const header = ['First Name', 'Last Name', 'Date Of Birth'];
+
+const StudentView = ({ approve, onToggleApprove, onShowOrder }) => (
+    <div >
+        <table >
+            <tbody >
+                <tr>
+                    {header.map((item) => (
+                        <th key = { item }>{item}</th>
+                    ))}
+                </tr>
+
+                <tr onClick = {() => { onShowOrder(this.props.students.ID) } } >
+                    {this.props.students.map(({ ID, firstName, lastName }) => (
+                        <tr key = { ID }>
+                            <td>{firstName}</td>
+                            <td>{lastName}</td>
+                        </tr>
+                    ))}
+                    <td>
+                        <label >Approve
+                            <input
+                                checked = { approve }
+                                onChange = { onToggleApprove }
+                                type = 'checkbox'
+                            />
+                        </label>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+);
+
+export default StudentView;
+*/

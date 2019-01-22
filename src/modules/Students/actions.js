@@ -76,11 +76,18 @@ const setRole = (role) => ({
     payload: role,
 });
 
-// GET FAMILY MEMBER
-const getFamilyMemberStudent = (student) => ({
-    type:    types.GET_STUDENT_NATIONALITY,
-    payload: student,
-});
+// FAMILY  + INCREMENT / - DECREMENT
+
+const addFamilyMember = (students) => ({
+     type:    types.FAMILY_MEMBER_ADDED,
+     payload: students,
+ });
+
+const deleteFamilyMember = (students) => ({
+     type:    types.FAMILY_MEMBER_DELETED,
+     payload: students,
+ });
+
 
 
 export default {
@@ -102,5 +109,7 @@ export default {
 
     setRole,
 
-    getFamilyMemberStudent, 
+    addFamilyMember,
+    deleteFamilyMember,
+
 };

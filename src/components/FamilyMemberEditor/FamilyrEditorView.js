@@ -106,7 +106,7 @@ export default class FamilyMemberEditor extends Component {
                   const buttonStyle = cx(Styles.formSubmit, {
                       [Styles.disabledButton]: isFetching,
                   });
-                  const buttonMessage = isFetching ? 'Creating...' : 'Family Member';
+                  const buttonMessage = isFetching ? 'Creating...' : 'Save';
 
                   return (
                       <Form className = { Styles.form }>

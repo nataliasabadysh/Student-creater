@@ -16,6 +16,8 @@ import Styles from './styles.module.css';
 const schema = object().shape({
     firstName: string().required(),
     lastName:  string().required(),
+    // dateOfBirth:   number().required(),
+    // nationalities: string().required(),
 });
 
 export default class StudentEditor extends Component {
@@ -28,11 +30,11 @@ export default class StudentEditor extends Component {
     formikForm = createRef();
 
     state = {
-
-        nationality: (this.props.studentDataInModal.nationality && this.props.studentDataInModal.nationality.Title.toLowerCase()) || this.props.nationalities[0].Title.toLowerCase() || '',
-        dateOfBirth: (this.props.studentDataInModal.dateOfBirth && new Date(this.props.studentDataInModal.dateOfBirth)) || new Date(),
+      //dateOfBirth:   '',
+        nationality: this.props.studentDataInModal.nationality && this.props.studentDataInModal.nationality.Title.toLowerCase() || this.props.nationalities[0].Title.toLowerCase() || '',
+        dateOfBirth: this.props.studentDataInModal.dateOfBirth && new Date(this.props.studentDataInModal.dateOfBirth) || new Date(),
     };
-    
+
     _selectDateOfBirth = (date) => {
         this.setState({
             dateOfBirth: date,
@@ -46,7 +48,7 @@ export default class StudentEditor extends Component {
 
     componentDidMount () {
         const { studentDataInModal, nationalities } = this.props;
-        
+
         this.setState({
             nationality: studentDataInModal.nationality && studentDataInModal.nationality.Title.toLowerCase() || nationalities[0].Title.toLowerCase(),
         });
@@ -55,16 +57,16 @@ export default class StudentEditor extends Component {
     _submitNewStudent = (Data) => {
         if (this.props.modalMode === 'create') {
             this.props.addStudentAsync({
-              ID:            this.props.studentDataInModal.ID,
-              ...Data,
-              nationalityId: this.props.nationalities.find((nationality) => nationality.Title.toLowerCase() === this.state.nationality).ID,
-              dateOfBirth: this.state.dateOfBirth.toISOString()
-          });
+                ID:            this.props.studentDataInModal.ID,
+                ...Data,
+                nationalityId: this.props.nationalities.find((nationality) => nationality.Title.toLowerCase() === this.state.nationality).ID,
+                dateOfBirth:   this.state.dateOfBirth.toISOString(),
+            });
         } else if (this.props.modalMode === 'update') {
             this.props.updateStudentAsync({
                 ...Data,
-                ID: this.props.studentDataInModal.ID,
-                dateOfBirth: this.state.dateOfBirth.toISOString(),
+                ID:            this.props.studentDataInModal.ID,
+                dateOfBirth:   this.state.dateOfBirth.toISOString(),
                 nationalityId: this.props.nationalities.find((nationality) => nationality.Title.toLowerCase() === this.state.nationality).ID,
             });
         }
@@ -72,8 +74,8 @@ export default class StudentEditor extends Component {
 
     _selectNationality = (selectedOption) => {
         this.setState({
-          nationality: selectedOption.value,
-      });
+            nationality: selectedOption.value,
+        });
     }
 
     _getSubmitButtonMessage = () => {
@@ -82,11 +84,11 @@ export default class StudentEditor extends Component {
         let buttonMessage = 'Create';
 
         if (modalMode === 'create' && isFetching) {
-            buttonMessage = 'Creating...' ;
-        } else if (modalMode === 'update'  && !isFetching) {
+            buttonMessage = 'Creating...';
+        } else if (modalMode === 'update' && !isFetching) {
             buttonMessage = 'Update';
         } else if (modalMode === 'update' && isFetching) {
-            buttonMessage = 'Updating...' ;
+            buttonMessage = 'Updating...';
         }
 
         return buttonMessage;
@@ -99,7 +101,7 @@ export default class StudentEditor extends Component {
         const selectedOption = this.options.find((nationality) => nationality.value === selectedNationality);
 
         return (
-          <Formik
+            <Formik
               initialValues = { {
                   firstName: studentDataInModal.firstName,
                   lastName:  studentDataInModal.lastName,
@@ -125,7 +127,7 @@ export default class StudentEditor extends Component {
                       [Styles.disabledButton]: isFetching,
                   });
 
-                 const buttonMessage = this._getSubmitButtonMessage();
+                  const buttonMessage = this._getSubmitButtonMessage();
 
                   return (
                       <Form className = { Styles.form }>
@@ -148,7 +150,7 @@ export default class StudentEditor extends Component {
 
                                   <DatePicker
                                       showYearDropdown
-                                      dropdownMode="select"
+                                      dropdownMode = 'select'
                                       disabled = { isFetching || modalMode !== 'create' && role === 'admin' }
                                       selected = { this.state.dateOfBirth }
                                       onChange = { this._selectDateOfBirth }
@@ -170,7 +172,6 @@ export default class StudentEditor extends Component {
               } }
               onSubmit = { this._submitNewStudent }
           />
-      );
+        );
     }
 }
-
