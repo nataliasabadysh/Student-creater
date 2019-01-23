@@ -1,34 +1,13 @@
-
-:root {
-    /* HEX */
-    --paletteColor1: #000000;
-    --paletteColor2: #ffffff;
-
-    /* RRGGBBAA */
-    --rgbaColor1: #00000050;
-
-    /* RGB */
-    --rgbColor1: rgb(153, 153, 153);
-}
-
 .form{
     background-color: #eee;
-    padding: 10px;
+    border-bottom: 1px solid #ffff;
 }
 .wrapper{
     height: 550px;
     padding-bottom: 25px;
-
 }
 .formSubmit{
     cursor: pointer;
-    /* display: inline-block;
-    
-    text-align: center;
-    padding: 10px;
-    border: none;
-    outline: none;
-    font-size: 16px; */
     background-color:#ffe5ac69;  
 } 
 .disabledButton {
@@ -38,14 +17,14 @@
     box-shadow: initial;
 }
 input{
-    width: 230px;
+    width: 300px;
     margin: 0 0 20px;
-    padding: 8px 10px;
+    padding: 16px 14px;
     border-radius: 7px;
     outline: none;
     font-size: 17px;
     transition: border 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid #eee;
+    border: 1px solid #ccc;
     outline: none;
 }
 input:focus {
@@ -53,7 +32,6 @@ input:focus {
     border: 1px solid #111;
     box-shadow: 0 5px 6px -6px;
 }
-/* Invalid  */
 
 .invalidInput{
     border: 1px solid red;
@@ -70,27 +48,12 @@ input:focus {
     box-shadow: 0 0 0 1px;
 }
 
-/* .disabledButton {
-    background-color: var(--paletteColor7);
+.Selector{
+    padding: 10px 0;
+    width: 328px;
 }
-
-.disabledButton a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    outline: 0;
-    height: 34px;
-    cursor: pointer;
-    font-size: 18px;
-    font-weight: 500;
-    transition: background-color 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.3s ease;
-    background-color: #4267b2;
-    text-decoration: none;
-}
-
-    .disabledButton a:hover {
-        border-color: #365899;
-        background-color: #365899;
-        box-shadow: #90949c;
+.wrapper__form{
+    padding: 15px 25px ;
     
-} */
+
+}

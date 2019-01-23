@@ -11,48 +11,60 @@ import Styles from './StudentRow/styles.module.css';
 import { actions, selectors, operations } from '../../modules/Students';
 
 class StudentTable extends Component {
+    header = ['First Name', 'Last Name', 'Date Of Birth', 'Approve'];
+
     componentDidMount () {
         this.props.fetchNationalitiesAsync();
         this.props.fetchStudentsAsync();
     }
+
     render () {
         const { isModalOpen, loadStudentDataToModal, clearStudentDataToModal, setModalOpenState, role, setModalMode } = this.props;
 
         return (
             <div className = { Styles.wrapper }>
-                <button className = { Styles.button } onClick = { () => this.props.setModalOpenState(!isModalOpen) }>New Student</button>
-                { this.props.students.map((student) => (
-                    <StudentRow
-                        key = { student.ID }
-                        { ...student }
-                        loadStudentDataToModal = { loadStudentDataToModal }
-                        clearStudentDataToModal = { clearStudentDataToModal }
-                        setModalOpenState = { setModalOpenState }
-                        role = { role }
-                        setModalMode = { setModalMode }
-                    />
-                )) }
+                <button className = { Styles.btn } onClick = { () => this.props.setModalOpenState(!isModalOpen) }>New Student</button>
+                <table>
+                    <tbody>
+                        <tr>
+                            {this.header.map((item) => (
+                                <th key = { item }>{item}</th>
+                            ))}
+                        </tr>
+                
+                        { this.props.students.map((student) => (
+                            <StudentRow
+                                { ...student }
+                                clearStudentDataToModal = { clearStudentDataToModal }
+                                key = { student.ID }
+                                loadStudentDataToModal = { loadStudentDataToModal }
+                                role = { role }
+                                setModalMode = { setModalMode }
+                                setModalOpenState = { setModalOpenState }
+                            />
+                        )) }
+                    </tbody>
+                </table>
             </div>
         );
     }
 }
 
 const mapStateToProps = (state) => ({
-    students: selectors.getNewStudent(state),
-
+    students:    selectors.getNewStudent(state),
     isModalOpen: state.students.isModalOpen,
     role:        state.students.role,
 });
 
 const mapDispatchToProps = {
     fetchNationalitiesAsync: operations.fetchNationalitiesAsync,
-    fetchStudentsAsync: operations.fetchStudentsAsync, 
-    loadStudentDataToModal: actions.loadStudentDataToModal,
-    setModalOpenState: actions.setModalOpenState,
-    setModalMode: actions.setModalMode,
+    fetchStudentsAsync:      operations.fetchStudentsAsync,
+    loadStudentDataToModal:  actions.loadStudentDataToModal,
+    setModalOpenState:       actions.setModalOpenState,
+    setModalMode:            actions.setModalMode,
 };
 
-export default connect( 
+export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(StudentTable);

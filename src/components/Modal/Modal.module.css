@@ -1,48 +1,77 @@
 .backDrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.2);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.2);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow : auto;
+    justify-content: center;
+    align-items: center;
+}
+.wrapper{
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    /* position: relative; */
 }
 
 .modal {
-  background-color: #fff;
-  padding: 60px;
-  display: flex;
-  align-items: flex-start;
-  flex-wrap: nowrap;
+    position: relative;
+    background-color: #fff;
+    padding: 40px;
+    width: 800px;
+    margin: 80px auto;
+    align-items: flex-start;
+    flex-wrap: nowrap;
 }
 
 .list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
 .list:not(:last-child) {
-  margin-bottom: 8px;
+    margin-bottom: 8px;
 }
 
 .list li {
-  display: block;
-  margin-bottom: 8px;
+    display: block;
+    margin-bottom: 8px;
 }
 
 label,
 input {
-  display: block;
+    display: block;
 }
 
 label {
-  padding-bottom: 8px;
+    padding-bottom: 8px;
 }
 
 .sections{
- display: flex;
- width:50%;
+    display: flex;
+    width: 70%;
+}
+
+h1{
+    margin-bottom: 30px;
+}
+.btnClose{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 11px 14px;
+    border-radius: 0;
+    background: #eee;
+    color: #3339;
+}
+.btnClose:hover{
+    background: #ddd;
+    color: hsla(0, 0%, 20%, 0.65);
+}
+.btn_modal{
+    margin-top: -48px;
+    margin-bottom: 10px;
 }

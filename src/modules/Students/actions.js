@@ -1,7 +1,6 @@
 // Types
 import types from './types';
 
-// Fetching All list of Students
 const setFetchingState = (state) => ({
     type:    types.SET_FETCHING_STATE,
     payload: state,
@@ -27,7 +26,7 @@ const clearStudentDataToModal = () => ({
 });
 
 const fillStudents = (students) => ({
-    type:    types.FILL_STUDENTS, // FILL_STUDENTS
+    type:    types.FILL_STUDENTS,
     payload: students,
 });
 
@@ -36,25 +35,21 @@ const fetchError = (error) => ({
     payload: error,
 });
 
-// Add new student
 const addStudentSuccess = (students) => ({
     type:    types.ADD_STUDENT_SUCCESS,
     payload: students,
 });
 
-// Update Student Action
 const updateStudent = (student) => ({
     type:    types.UPDATE_STUDENT,
     payload: student,
 });
 
-// Modal  to Add Student
 const modalAddStudentSuccess = (students) => ({
     type:    types.MODAL_OPEN,
     payload: students,
 });
 
-// Get Student's Nationality
 const fillAllNationalities = (nationalities) => ({
     type:    types.FILL_ALL_NATIONALITIES,
     payload: nationalities,
@@ -65,30 +60,20 @@ const getNatoionality = (students) => ({
     payload: students,
 });
 
-// UPDATE Student's Nationality
 const updateStudentNationality = (ID) => ({
     type:    types.UPDATE_STUDENT_NATIONALITY,
     payload: ID,
 });
 
+// const loadStudentFamilyMemberToModal = (familyMember) => ({
+//     type:    types.FILL_FAMILY_MEMBER,
+//     payload: familyMember,
+// });
+
 const setRole = (role) => ({
     type:    types.SET_ROLE,
     payload: role,
 });
-
-// FAMILY  + INCREMENT / - DECREMENT
-
-const addFamilyMember = (students) => ({
-     type:    types.FAMILY_MEMBER_ADDED,
-     payload: students,
- });
-
-const deleteFamilyMember = (students) => ({
-     type:    types.FAMILY_MEMBER_DELETED,
-     payload: students,
- });
-
-
 
 export default {
     setFetchingState,
@@ -108,8 +93,5 @@ export default {
     fetchError,
 
     setRole,
-
-    addFamilyMember,
-    deleteFamilyMember,
 
 };

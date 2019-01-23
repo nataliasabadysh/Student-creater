@@ -2,28 +2,25 @@
 import types from './types';
 
 const initialState = {
-    // ui
+
     isFetching:  false,
     isModalOpen: false,
+
     modalMode:   'create',
     role:        'registrar',
 
-    // meta
     nationalities: [],
-
-    // students
     students: [],
-
-    // studentDataInModal
     studentDataInModal: {
+
         ID:        0,
         firstName: '',
         lastName:  '',
-        // TODO: связать это поле с результатом запроса к серверу, который вернет нам национальность студента по айди
-        // nationalitity: '',
+        nationalitity: '',
+
+        familyMembers: [],  // ?
     },
     
-    familyMember: [],
 };
 
 export function studentsReducer (state = initialState, { type, payload }) {
@@ -59,24 +56,17 @@ export function studentsReducer (state = initialState, { type, payload }) {
         case types.UPDATE_STUDENT:
             return { ...state, students: state.students.map((student) => student.ID === payload.ID ? payload : student) };
 
-        // case types.UPDATE_STUDENT_NATIONALITY:
-        //     return state.map((students) => students.id === payload.id ? payload : students);
-
         case types.GET_STUDENT_NATIONALITY:
             return { ...state, payload };
 
-// FAMILY  + INCREMENT / - DECREMENT
+        // case types.FILL_FAMILY_MEMBER:
+        //     return { ...state, familyMember: payload };
 
-        case types.FAMILY_MEMBER_ADDED:
-            return { ...state, familyMember: payload };
-
-        case types.FAMILY_MEMBER_DELETED:
-            return state.filter((familyMember) => familyMember.ID !== payload);
+        // case types.FAMILY_MEMBER_DELETED:
+        //     return state.filter((familyMember) => familyMember.ID !== payload);
          
-        case types.FAMILY_MEMBER_UPDATE:
-            return state.map((familyMember) => familyMember.ID === payload.ID ? payload : familyMember);
-
-            // Roles
+        // case types.FAMILY_MEMBER_UPDATE:
+        //     return state.map((familyMember) => familyMember.ID === payload.ID ? payload : familyMember);
 
         default:
             return state;

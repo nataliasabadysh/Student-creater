@@ -8,34 +8,42 @@ import { actions } from '../../modules/Students';
 import Styles from './slyles.module.css';
 
 // Avatar
-import avatar from './assets/download.png';
+import Admin from './assets/Admin.png';
+import Registrar from './assets/Registrar.png';
 
 class Header extends Component {
     options = [
         { value: 'admin', label: 'Admin' },
         { value: 'registrar', label: 'Registrar' }
-    ];
+    ]
 
-  handleChange = (selectedOption) => {
-      this.props.setRole(selectedOption.value)
-  }
+    handleChange = (selectedOption) => {
+        this.props.setRole(selectedOption.value);
+    }
 
-  render () {
-    const selectedOption = this.options.find((option) => option.value === this.props.role);
+    render () {
+        const selectedOption = this.options.find(
+      (option) => option.value === this.props.role
+    );
 
-      return (
-          <header className = { Styles.header }>
-              <img alt = 'User avatar' height = '55' src = { avatar  } width = '55' />
-              <div className = { Styles.Selector }>
-                  <Select
-                      options = { this.options }
-                      value = { selectedOption }
-                      onChange = { this.handleChange }
-                  />
-              </div>
-          </header>
-      );
-  }
+        return (
+            <header className = { Styles.header }>
+                <img
+                    alt = 'User avatar'
+                    height = '55'
+                    src = { this.props.role === 'admin' ? Admin : Registrar }
+                    width = '55'
+                />
+                <div className = { Styles.Selector }>
+                    <Select
+                        options = { this.options }
+                        value = { selectedOption }
+                        onChange = { this.handleChange }
+                    />
+                </div>
+            </header>
+        );
+    }
 }
 
 const mapStateToProps = (state) => ({
@@ -43,7 +51,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-    setRole: actions.setRole, 
+    setRole: actions.setRole,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);

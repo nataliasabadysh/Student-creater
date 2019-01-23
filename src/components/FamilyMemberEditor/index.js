@@ -40,6 +40,7 @@ class FamilyMemberEditor extends Component {
             label: nationality.Title,
         };
     });
+
     _selectNationality = (selectedNatoinalityOption) => {
         this.setState({
             nationality: selectedNatoinalityOption.value,
@@ -84,14 +85,18 @@ class FamilyMemberEditor extends Component {
             (nationality) => nationality.value === selectedNationality,
         );
 
+        const initialValues = this.props.familyMember ? {
+            firstName: this.props.familyMember.firstName,
+            lastName:  this.props.familyMember.lastName,
+        } : {
+            firstName: '',
+            lastName:  '',
+        } 
+
         return (
             <Formik
-                initialValues = { {
-                    firstName: '',
-                    lastName:  '',
-                } }
+                initialValues = { initialValues }
                 ref = { this.props.familyMemberFormRef }
-                validationSchema = { schema }
                 onSubmit = { this._submittingFamilyMember }
                 render = { (props) => {
                     const { isValid, touched, errors } = props;
@@ -109,15 +114,10 @@ class FamilyMemberEditor extends Component {
                             !isValid && touched.lastName && errors.lastName,
                     });
 
-                    const buttonStyle = cx(Styles.formSubmit, {
-                        [Styles.disabledButton]: isFetching,
-                    });
-                    const buttonMessage = isFetching ? 'Creating...' : 'Save';
-
                     return (
                         <Form className = { Styles.form }>
                             <div className = { formStyle }>
-                                <div>
+                                <div className = { Styles.wrapper__form }>
                                     <Field
                                         className = { invalidNameStyle }
                                         disabled = {
@@ -151,32 +151,38 @@ class FamilyMemberEditor extends Component {
                                         selected = { this.state.dateOfBirth }
                                         showYearDropdown
                                     />
+                                      <div className = { Styles.Selector }>
+                                        <Select
+                                            isDisabled = {
+                                                isFetching ||
+                                                modalMode !== 'create' &&
+                                                    role === 'admin'
+                                            }
+                                            dropdownMode = 'select'
+                                            options = { this.options }
+                                            value = { selectedOption }
+                                            onChange = { this._selectRelationship }
+                                        />
+                                    </div>
+                                    <div className = { Styles.Selector }>
                                     <Select
+                                    
                                         isDisabled = {
                                             isFetching ||
                                             modalMode !== 'create' &&
-                                                role === 'admin'
-                                        }
-                                        options = { this.options }
-                                        value = { selectedOption }
-                                        onChange = { this._selectRelationship }
-                                    />
-                                    <Select
-                                        isDisabled = {
-                                            isFetching ||
-                                            /* isAbleToEdit */ modalMode !==
-                                                'create' &&
                                                 role === 'admin'
                                         }
                                         options = { this.nationalityOptions }
                                         value = { selectedNationalityOption }
                                         onChange = { this._selectNationality }
                                     />
-                                </div>
+                                    </div>
+                                </div >
                             </div>
                         </Form>
                     );
                 } }
+                validationSchema = { schema }
             />
         );
     }

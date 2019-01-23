@@ -40,21 +40,17 @@ const fetchStudentsAsync = () => async (dispatch) => {
 
         // Тут мы получили фемили мемберов всех студентов, их нужно объединить со студентами и загрузить в редакс.
         const familyMembers = await Promise.all(familyMembersPromises);
+         console.log(familyMembers)
 
-        // const studentWithFamilyMember = students.data.map(
-        //     (familyMember, index) => {
+        //  const studentWithFamilyMember = students.data.map(
+        //     (familyMembers, index) => {
         //         return {
-        //             ...familyMember,
+        //             ...student,
         //             ...familyMember[index].data,
-        //         };
-        //     },
+        //             };
+        //         },
         // );
-
-        /*
-        GET: Gets Family Members for a particular Student
-    http://localhost:8088/api/FamilyMembers/ {id} /Nationality/ {id}
-
- */
+        
         const assembledStudents = students.data.map(
             (student, index) => {
 

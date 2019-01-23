@@ -5,19 +5,17 @@ import { object, string } from 'yup';
 import cx from 'classnames';
 import Select from 'react-select';
 
-// Data Picker
+// Instruments
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-// Instruments
+// Styles
 import Styles from './styles.module.css';
 
 // Validation  Form
 const schema = object().shape({
     firstName: string().required(),
     lastName:  string().required(),
-    // dateOfBirth:   number().required(),
-    // nationalities: string().required(),
 });
 
 export default class StudentEditor extends Component {
@@ -46,8 +44,11 @@ export default class StudentEditor extends Component {
         });
     };
 
+    
+
     componentWillUnmount () {
         this.props.clearStudentDataToModal();
+        this.props._resetFamilyMembersState();
         this.props.setModalMode('create');
     }
 
@@ -60,6 +61,18 @@ export default class StudentEditor extends Component {
                     studentDataInModal.nationality.Title.toLowerCase() ||
                 nationalities[0].Title.toLowerCase(),
         });
+
+        if (this.props.studentDataInModal.familyMembers) {
+            const familyMembersCount =
+                this.props.studentDataInModal.familyMembers.length;
+
+            this.props._initFamilyMembers({
+                familyMembersCount,
+                familyMembersRefs: [...Array(familyMembersCount)].map(() => {
+                    return React.createRef();
+                }),
+            });
+        }
     }
 
     _createStudent = (studentData) => {
@@ -100,6 +113,8 @@ export default class StudentEditor extends Component {
         const { nationality: selectedNationality } = this.state;
         const { isFetching, studentDataInModal, role, modalMode } = this.props;
 
+
+        // console.log(this.props.modalMode)
         const selectedOption = this.options.find(
             (nationality) => nationality.value === selectedNationality,
         );
@@ -137,7 +152,7 @@ export default class StudentEditor extends Component {
                     return (
                         <Form className = { Styles.form }>
                             <div className = { formStyle }>
-                                <div>
+                                <div className = { Styles.wrapper__form }>
                                     <Field
                                         className = { invalidNameStyle }
                                         disabled = {
@@ -173,16 +188,17 @@ export default class StudentEditor extends Component {
                                         showYearDropdown
                                     />
                                     <Select
-                                        isDisabled = {
-                                            isFetching ||
-                                            /* isAbleToEdit */ modalMode !==
+                        
+                                      isDisabled = {
+                                        isFetching ||
+                                            modalMode !==
                                                 'create' &&
                                                 role === 'admin'
                                         }
-                                        options = { this.options }
-                                        value = { selectedOption }
-                                        onChange = { this._selectNationality }
-                                    />
+                                            options = { this.options }
+                                            value = { selectedOption }
+                                            onChange = { this._selectNationality }
+                                        />
 
                                     <button
                                         className = { buttonStyle }
