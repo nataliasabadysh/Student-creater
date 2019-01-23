@@ -3,7 +3,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 // instumets
-
 import './index.css';
 
 // Redux
@@ -17,4 +16,4 @@ ReactDOM.render(
     <Provider store = { store }>
         <App />
     </Provider>,
-    document.getElementById('root'));
+document.getElementById('root'));

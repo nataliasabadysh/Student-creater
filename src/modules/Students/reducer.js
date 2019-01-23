@@ -2,25 +2,18 @@
 import types from './types';
 
 const initialState = {
-
-    isFetching:  false,
-    isModalOpen: false,
-
-    modalMode:   'create',
-    role:        'registrar',
-
-    nationalities: [],
-    students: [],
+    isFetching:         false,
+    isModalOpen:        false,
+    modalMode:          'create',
+    role:               'registrar',
+    nationalities:      [],
+    students:           [],
     studentDataInModal: {
-
-        ID:        0,
-        firstName: '',
-        lastName:  '',
+        ID:            0,
+        firstName:     '',
+        lastName:      '',
         nationalitity: '',
-
-        familyMembers: [],  // ?
     },
-    
 };
 
 export function studentsReducer (state = initialState, { type, payload }) {
@@ -58,15 +51,6 @@ export function studentsReducer (state = initialState, { type, payload }) {
 
         case types.GET_STUDENT_NATIONALITY:
             return { ...state, payload };
-
-        // case types.FILL_FAMILY_MEMBER:
-        //     return { ...state, familyMember: payload };
-
-        // case types.FAMILY_MEMBER_DELETED:
-        //     return state.filter((familyMember) => familyMember.ID !== payload);
-         
-        // case types.FAMILY_MEMBER_UPDATE:
-        //     return state.map((familyMember) => familyMember.ID === payload.ID ? payload : familyMember);
 
         default:
             return state;

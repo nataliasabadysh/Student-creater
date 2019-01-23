@@ -65,23 +65,17 @@ class Modal extends Component {
                     return familyMemberRef.current.state.values;
                 },
             );
-
-            // Это — список фемили мемберов. Его нужно отпраить на сервер.
-            console.log('→ familyMembers', familyMembers);
         }
 
         if (this.props.modalMode === 'create') {
             this.props.addStudentAsync({
                 ...studentData,
-                // ...familyMembersData
             });
         } else if (this.props.modalMode === 'update') {
             this.props.updateStudentAsync({
                 ...studentData,
-                // ...familyMembersData
             });
         }
-
         this._resetFamilyMembersState();
     };
 
@@ -102,11 +96,6 @@ class Modal extends Component {
 
         const modalHeadingText =
             modalMode === 'create' ? 'Create student' : 'Update student';
-
-        console.log(familyMembersCount)
-
-        console.log('→ смори здесь  this.state', this.state);
-        console.log('→  смори здесь  this.props', this.props);
 
         return (
             this.props.isModalOpen && (
@@ -147,7 +136,6 @@ class Modal extends Component {
                                         }
                             />
                         </section>
-
                         <section className = { Styles.sections }>
                             <div className = { Styles.btn_modal }>
                                 <button onClick = { this._addFamilyMember }>
@@ -156,46 +144,45 @@ class Modal extends Component {
                                 <button
                                     onClick = { this._removeFamilyMember }
                                     disabled = { this.state.familyMembersCount === 0 }>Remove Family Member
-                                        </button>
+                                </button>
                                 {[...Array(familyMembersCount).keys()].map(
-                                            (count, index) => {
-                                                return (
-                                                    <FamilyMemberEditor
-                                                        _createStudent = {
-                                                            this._createStudent
-                                                        }
-                                                        familyMember = {
-                                                            this.props.studentDataInModal.familyMembers[index]
-                                                        }
-                                                        isFetching = {
-                                                            this.props.isFetching
-                                                        }
-                                                        key = { count }
-                                                        modalMode = { this.props.modalMode }
-                                                        nationalities = {
-                                                            this.props.nationalities
-                                                        }
-                                                        ref = {
-                                                            this.state
-                                                                .familyMembersRefs[
-                                                                    index
-                                                                ]
-                                                        }
-                                                        role = { this.props.role }
-                                                        studentDataInModal = {
-                                                            this.props
-                                                                .studentDataInModal
-                                                        }
-                                                    />
-                                                );
-                                            },
-                                        )}
+                                    (count, index) => {
+                                        return (
+                                            <FamilyMemberEditor
+                                                _createStudent = {
+                                                    this._createStudent
+                                                }
+                                                familyMember = {
+                                                    this.props.studentDataInModal.familyMembers[index]
+                                                }
+                                                isFetching = {
+                                                    this.props.isFetching
+                                                }
+                                                key = { count }
+                                                modalMode = { this.props.modalMode }
+                                                nationalities = {
+                                                    this.props.nationalities
+                                                }
+                                                ref = {
+                                                    this.state
+                                                        .familyMembersRefs[
+                                                            index
+                                                        ]
+                                                }
+                                                role = { this.props.role }
+                                                studentDataInModal = {
+                                                    this.props
+                                                        .studentDataInModal
+                                                }
+                                            />
+                                        );
+                                    },
+                                )}
                             </div>
                         </section>
                     </div>
                 </div>
-            </div>
-
+                </div>
             )
         );
     }
@@ -208,10 +195,6 @@ const mapStateToProps = (state) => ({
     studentDataInModal: state.students.studentDataInModal,
     nationalities:      state.students.nationalities,
     modalMode:          state.students.modalMode,
- 
-
-    // Family member
-
 });
 
 const mapDispatchToProps = {
@@ -220,10 +203,6 @@ const mapDispatchToProps = {
     clearStudentDataToModal: actions.clearStudentDataToModal,
     setModalMode:            actions.setModalMode,
     setModalOpenState:       actions.setModalOpenState,
-
-    // Family member
-    // addFamilyMember : operations.familyMember.addFamilyMember,
-    // deleteamilyMember : operations.familyMember.deleteamilyMember,
 };
 
 export default connect(

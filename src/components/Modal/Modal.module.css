@@ -9,11 +9,11 @@
     justify-content: center;
     align-items: center;
 }
+
 .wrapper{
     display: flex;
     align-items: flex-start;
     flex-wrap: nowrap;
-    /* position: relative; */
 }
 
 .modal {
@@ -24,21 +24,6 @@
     margin: 80px auto;
     align-items: flex-start;
     flex-wrap: nowrap;
-}
-
-.list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.list:not(:last-child) {
-    margin-bottom: 8px;
-}
-
-.list li {
-    display: block;
-    margin-bottom: 8px;
 }
 
 label,
@@ -58,6 +43,7 @@ label {
 h1{
     margin-bottom: 30px;
 }
+
 .btnClose{
     position: absolute;
     top: 20px;
@@ -67,10 +53,12 @@ h1{
     background: #eee;
     color: #3339;
 }
+
 .btnClose:hover{
     background: #ddd;
     color: hsla(0, 0%, 20%, 0.65);
 }
+
 .btn_modal{
     margin-top: -48px;
     margin-bottom: 10px;

@@ -1,9 +1,9 @@
 // Core
-import React from 'react'
-import Moment from 'react-moment'
+import React from 'react';
+import Moment from 'react-moment';
 
 // Instuments
-import './styles.module.css'
+import './styles.module.css';
 
 const StudentView = ({
   role,
@@ -16,40 +16,39 @@ const StudentView = ({
   loadStudentDataToModal,
   setModalOpenState,
   setModalMode,
-  date
+  date,
 }) => {
-  return (
-    <tr
-      onClick={event => {
-        if (event.target.type !== 'checkbox') {
-          loadStudentDataToModal({
-            ID,
-            firstName,
-            lastName,
-            nationality,
-            dateOfBirth,
-            familyMembers
-          })
-          setModalMode('update')
-          setModalOpenState(true)
-        }
-      }}
-    >
-      <td>{firstName}</td>
-      <td>{lastName}</td>
-      <td>
-        <Moment format='YYYY/MM/DD' onChange={date}>
-          {dateOfBirth}
-        </Moment>
-      </td>
-      <td>
-        <label>
+    return (
+        <tr
+            onClick = { (event) => {
+                if (event.target.type !== 'checkbox') {
+                    loadStudentDataToModal({
+                        ID,
+                        firstName,
+                        lastName,
+                        nationality,
+                        dateOfBirth,
+                        familyMembers,
+                    });
+                    setModalMode('update');
+                    setModalOpenState(true);
+                }
+            } }>
+            <td>{firstName}</td>
+            <td>{lastName}</td>
+            <td>
+                <Moment format = 'YYYY/MM/DD' onChange = { date }>
+                    {dateOfBirth}
+                </Moment>
+            </td>
+            <td>
+                <label>
           Approve
-          <input disabled={role === 'admin'} type='checkbox' />
-        </label>
-      </td>
-    </tr>
-  )
-}
+          <input disabled = { role === 'admin' } type = 'checkbox' />
+                </label>
+            </td>
+        </tr>
+    );
+};
 
-export default StudentView
+export default StudentView;

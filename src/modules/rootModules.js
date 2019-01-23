@@ -1,3 +1,4 @@
+//Core
 import { combineReducers } from 'redux';
 // Reducer
 import { studentsReducer } from './Students/reducer';

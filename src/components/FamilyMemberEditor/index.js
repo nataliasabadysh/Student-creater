@@ -5,11 +5,9 @@ import { object, string } from 'yup';
 import cx from 'classnames';
 import Select from 'react-select';
 
-// Data Picker
+// Instruments
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
-// Instruments
 import Styles from '../StudentEditor/styles.module.css';
 
 // Validation  Form
@@ -69,11 +67,6 @@ class FamilyMemberEditor extends Component {
         });
     };
 
-    //   deleteFamilyMember = ID => {
-    //     const { actions, ID } = this.props;
-    //     actions.deleteFamilyMemberAsync(ID);
-    // };
-
     render () {
         const { nationality: selectedNationality } = this.state;
         const { isFetching, role, modalMode } = this.props;
@@ -91,7 +84,7 @@ class FamilyMemberEditor extends Component {
         } : {
             firstName: '',
             lastName:  '',
-        } 
+        };
 
         return (
             <Formik
@@ -151,31 +144,30 @@ class FamilyMemberEditor extends Component {
                                         selected = { this.state.dateOfBirth }
                                         showYearDropdown
                                     />
-                                      <div className = { Styles.Selector }>
+                                    <div className = { Styles.Selector }>
                                         <Select
+                                            dropdownMode = 'select'
                                             isDisabled = {
                                                 isFetching ||
                                                 modalMode !== 'create' &&
                                                     role === 'admin'
                                             }
-                                            dropdownMode = 'select'
                                             options = { this.options }
                                             value = { selectedOption }
                                             onChange = { this._selectRelationship }
                                         />
                                     </div>
                                     <div className = { Styles.Selector }>
-                                    <Select
-                                    
-                                        isDisabled = {
+                                        <Select
+                                            isDisabled = {
                                             isFetching ||
                                             modalMode !== 'create' &&
                                                 role === 'admin'
                                         }
-                                        options = { this.nationalityOptions }
-                                        value = { selectedNationalityOption }
-                                        onChange = { this._selectNationality }
-                                    />
+                                            options = { this.nationalityOptions }
+                                            value = { selectedNationalityOption }
+                                            onChange = { this._selectNationality }
+                                        />
                                     </div>
                                 </div >
                             </div>

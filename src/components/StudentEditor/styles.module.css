@@ -2,20 +2,25 @@
     background-color: #eee;
     border-bottom: 1px solid #ffff;
 }
+
 .wrapper{
     height: 550px;
     padding-bottom: 25px;
 }
+
 .formSubmit{
     cursor: pointer;
     background-color:#ffe5ac69;  
 } 
+
 .disabledButton {
     color: grey;
 }
+
 .loginPage .disabledButton:hover {
     box-shadow: initial;
 }
+
 input{
     width: 300px;
     margin: 0 0 20px;
@@ -27,6 +32,7 @@ input{
     border: 1px solid #ccc;
     outline: none;
 }
+
 input:focus {
     outline: none;
     border: 1px solid #111;
@@ -36,12 +42,15 @@ input:focus {
 .invalidInput{
     border: 1px solid red;
 }
+
 .invalidInput:focus {
     box-shadow: 0 0 0 1px crimson;
 }
+
 .btn{
     outline: none;
 }
+
 .btn:hover {
     outline: none;
     background-color: aliceblue;
@@ -52,8 +61,7 @@ input:focus {
     padding: 10px 0;
     width: 328px;
 }
+
 .wrapper__form{
     padding: 15px 25px ;
-    
-
 }

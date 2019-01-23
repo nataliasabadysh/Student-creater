@@ -1,26 +1,30 @@
 .wrapper{
-  width: 1200px;
-  margin: 0 auto;
+    width: 1200px;
+    margin: 0 auto;
 }
+
 table {
-  border-collapse: collapse;
-  width: 1200px;
-  margin: 20px auto;
-  background-color: #fff;
+    border-collapse: collapse;
+    width: 1200px;
+    margin: 20px auto;
+    background-color: #fff;
 }
+
 td{
-  font-size: 2opx;
-  background-color: #fff;
-  cursor: pointer;
+    font-size: 2opx;
+    background-color: #fff;
+    cursor: pointer;
 }
+
 td,
 th {
-  border: 1px solid #dddddd;
-  text-align: left;
-  padding: 8px;
-  width: 180px;
-  padding-left: 29px;
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    width: 180px;
+    padding-left: 29px;
 }
+
 th{
     color: #000544;
     font-size: 18px;
@@ -29,44 +33,45 @@ th{
 }
 
 tr:nth-child(even) {
-  background-color: #eee;
+    background-color: #eee;
 }
+
 label{
-  padding: 15px 5px;
-  display: flex;
-  cursor: pointer;
+    padding: 15px 5px;
+    display: flex;
+    cursor: pointer;
 }
+
 input[type=checkbox]{
-  display: block;
-  margin: 0 auto;
-  text-align: left;
-  width: 45px;
-  
+    display: block;
+    margin: 0 auto;
+    text-align: left;
+    width: 45px;
 }
 .container{
-  padding: 70px 50px;
-}
-button{
-  outline: none;
-  margin:  10px 2px ;
-  display: inline-block;
-  font-size: 16px;
-  border: none;
-  color: #fff;
-  border-radius: 10px;
-  padding: 7px 12px;
-  background-image: linear-gradient(0deg, #22E1FF 0%, #00cbf8 68%, #22E1FF 100%);
-  cursor: pointer;
+    padding: 70px 50px;
 }
 
+button{
+    outline: none;
+    margin:  10px 2px ;
+    display: inline-block;
+    font-size: 16px;
+    border: none;
+    color: #fff;
+    border-radius: 10px;
+    padding: 7px 12px;
+    background-image: linear-gradient(0deg, #22E1FF 0%, #00cbf8 68%, #22E1FF 100%);
+    cursor: pointer;
+}
 
 .btn{
-  outline: none;
-  display: inline-block;
-  border: none;
-  color: #fff;
-  border-radius: 10px;
-  padding: 12px 25px;
-  margin: 0 auto;
-  background-image: linear-gradient(0deg, #22E1FF 0%, #00cbf8 68%, #22E1FF 100%);
+    outline: none;
+    display: inline-block;
+    border: none;
+    color: #fff;
+    border-radius: 10px;
+    padding: 12px 25px;
+    margin: 0 auto;
+    background-image: linear-gradient(0deg, #22E1FF 0%, #00cbf8 68%, #22E1FF 100%);
 }

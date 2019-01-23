@@ -65,11 +65,6 @@ const updateStudentNationality = (ID) => ({
     payload: ID,
 });
 
-// const loadStudentFamilyMemberToModal = (familyMember) => ({
-//     type:    types.FILL_FAMILY_MEMBER,
-//     payload: familyMember,
-// });
-
 const setRole = (role) => ({
     type:    types.SET_ROLE,
     payload: role,
@@ -81,9 +76,7 @@ export default {
     setModalMode,
     loadStudentDataToModal,
     clearStudentDataToModal,
-
     updateStudentNationality,
-
     fillAllNationalities,
     getNatoionality,
     updateStudent,
@@ -91,7 +84,5 @@ export default {
     modalAddStudentSuccess,
     fillStudents,
     fetchError,
-
     setRole,
-
 };

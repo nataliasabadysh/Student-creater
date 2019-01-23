@@ -5,7 +5,6 @@ const app = express();
 
 app.use(bodyParser.json());
 
-
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -98,7 +97,6 @@ app.get('/api/Students/:studentID/FamilyMembers/', ({ params: { studentID } }, r
     res.send(familyMembersForStudent);
 });
 
-// Создать нового фемили мембера для студента
 app.post('/api/Students/:studentID/FamilyMembers/', (req, res) => {
     const { body: { firstName, lastName, dateOfBirth, relationship }, params: { studentID } } = req; 
     const studentToUpdate = students.find(s => s.ID === parseInt(studentID, 10));
@@ -146,7 +144,6 @@ app.delete('/api/FamilyMembers/:id',
  
         res.send('');
     });
-
 
 app.get('/api/FamilyMembers/:familyMemberID/Nationality/', 
     ({ params: { familyMemberID } }, res) => {

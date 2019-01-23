@@ -6,8 +6,6 @@ import Select from 'react-select';
 // Instruments
 import { actions } from '../../modules/Students';
 import Styles from './slyles.module.css';
-
-// Avatar
 import Admin from './assets/Admin.png';
 import Registrar from './assets/Registrar.png';
 

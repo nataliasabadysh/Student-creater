@@ -44,8 +44,6 @@ export default class StudentEditor extends Component {
         });
     };
 
-    
-
     componentWillUnmount () {
         this.props.clearStudentDataToModal();
         this.props._resetFamilyMembersState();
@@ -112,9 +110,6 @@ export default class StudentEditor extends Component {
     render () {
         const { nationality: selectedNationality } = this.state;
         const { isFetching, studentDataInModal, role, modalMode } = this.props;
-
-
-        // console.log(this.props.modalMode)
         const selectedOption = this.options.find(
             (nationality) => nationality.value === selectedNationality,
         );
@@ -153,6 +148,7 @@ export default class StudentEditor extends Component {
                         <Form className = { Styles.form }>
                             <div className = { formStyle }>
                                 <div className = { Styles.wrapper__form }>
+                                
                                     <Field
                                         className = { invalidNameStyle }
                                         disabled = {
@@ -164,6 +160,7 @@ export default class StudentEditor extends Component {
                                         placeholder = 'Name'
                                         type = 'text'
                                     />
+
                                     <Field
                                         className = { invalidLastNameStyle }
                                         disabled = {
@@ -187,18 +184,18 @@ export default class StudentEditor extends Component {
                                         selected = { this.state.dateOfBirth }
                                         showYearDropdown
                                     />
+
                                     <Select
-                        
-                                      isDisabled = {
+                                        isDisabled = {
                                         isFetching ||
                                             modalMode !==
                                                 'create' &&
                                                 role === 'admin'
                                         }
-                                            options = { this.options }
-                                            value = { selectedOption }
-                                            onChange = { this._selectNationality }
-                                        />
+                                        options = { this.options }
+                                        value = { selectedOption }
+                                        onChange = { this._selectNationality }
+                                    />
 
                                     <button
                                         className = { buttonStyle }
